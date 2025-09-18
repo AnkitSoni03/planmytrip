@@ -10,10 +10,13 @@ import { WhyChooseUs } from "@/components/Home/whyChooseUs";
 import React from "react";
 import { indiaTouristPlaces } from "@/components/Home/turist-card";
 import { FocusCards } from "@/components/ui/turist-focus-prop";
+import Navbar from "@/components/Header/navbar";
+import Footer from "@/components/Footer/footer";
 
 function page() {
   return (
     <>
+      <Navbar />
       <HeroSection />
       <WhyChooseUs />
       <FleetCards />
@@ -23,6 +26,7 @@ function page() {
       <CarRentalHowItWorks />
       <CustomerReview />
       <FAQSection />
+      <Footer />
     </>
   );
 }

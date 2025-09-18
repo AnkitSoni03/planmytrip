@@ -89,6 +89,7 @@ function Footer() {
           <div className="lg:col-span-1">
             <div className="flex items-center">
               {/* Light Mode Logo */}
+              <Link href={"/"}>
               <Image
                 src="/pmt-logo.png"
                 alt="PlanMyTrip Logo"
@@ -105,6 +106,7 @@ function Footer() {
                 height={60}
                 className="h-auto w-auto hidden dark:block"
               />
+              </Link>
             </div>
 
             <p className="text-muted-foreground mb-6 leading-relaxed">

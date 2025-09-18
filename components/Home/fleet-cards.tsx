@@ -89,7 +89,7 @@ export function FleetCards() {
 
   return (
     <>
-      <div className="max-w-7xl mx-auto px-6 text-center mb-14">
+      <div className="max-w-7xl mx-auto px-6 text-center mb-14 pt-15">
         <h2 className="text-3xl md:text-4xl font-extrabold text-neutral-900 dark:text-white">
           Our <span className="text-red-600">Fleet</span>
         </h2>
