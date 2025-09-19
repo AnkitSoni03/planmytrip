@@ -3,13 +3,21 @@
 import type React from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Loader2, MapPin, Send } from "lucide-react"
-import { TripSuggestions } from "./trip-suggestions"
+import {
+  Loader2,
+  MapPin,
+  Send,
+  Calendar,
+  Users,
+  Star,
+  Plane,
+  Sparkles,
+} from "lucide-react"
+import TripSuggestionsModal from "./trip-suggestion-form"
 
 interface TripFormData {
   duration: string
@@ -31,15 +39,16 @@ export function TripPlannerForm() {
     budget: "",
     additionalPreferences: "",
   })
-  const [suggestions, setSuggestions] = useState<string>("")
+  const [modalOpen, setModalOpen] = useState(false)
+  const [aiResponse, setAiResponse] = useState({ english: "", hindi: "" })
   const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    setSuggestions("")
 
     try {
+      // First API call for English suggestions
       const response = await fetch("/api/trip-suggestions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -49,10 +58,29 @@ export function TripPlannerForm() {
       if (!response.ok) throw new Error("Failed to get suggestions")
 
       const data = await response.json()
-      setSuggestions(data.suggestions)
+      const englishResponse = data.suggestions
+
+      // Second API call for Hindi translation
+      const resHindi = await fetch("/api/trip-suggestions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, language: "hindi" }),
+      })
+      
+      const hindiData = await resHindi.json()
+      
+      setAiResponse({
+        english: englishResponse,
+        hindi: hindiData.suggestions || "Hindi translation not available.",
+      })
+      setModalOpen(true)
     } catch (error) {
       console.error("Error getting trip suggestions:", error)
-      setSuggestions("❌ Sorry, something went wrong. Please try again.")
+      setAiResponse({
+        english: "❌ Sorry, something went wrong. Please try again.",
+        hindi: "❌ क्षमा करें, कुछ गलत हुआ। कृपया पुनः प्रयास करें।"
+      })
+      setModalOpen(true)
     } finally {
       setIsLoading(false)
     }
@@ -63,27 +91,77 @@ export function TripPlannerForm() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4">
-      <Card className="bg-white dark:bg-black/50 border border-red-600/30 shadow-lg rounded-2xl transition-colors">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-xl font-bold text-black dark:text-white">
-            <MapPin className="h-5 w-5 text-red-600" />
-            Plan Your Trip
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-8">
+    <div
+      className="min-h-screen bg-cover bg-center flex items-center justify-center px-4 py-12"
+      style={{ backgroundImage: "url('/Backwaters-of-Kerala.png')" }}
+    >
+      <div className="max-w-7xl w-full backdrop-blur-md bg-black/40 rounded-3xl shadow-2xl overflow-hidden grid md:grid-cols-2 border border-white/20">
+        
+        {/* Left Info Section */}
+        <div className="p-10 bg-gradient-to-br from-black/80 to-red-900/40 flex flex-col justify-center">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-center text-white mb-10">
+            <span className="text-orange-500">AI-Powered</span> Trip Planner
+          </h2>
+
+          <div className="space-y-6 text-white">
+            {[
+              {
+                icon: "🤖",
+                title: "Smart Recommendations",
+                desc: "Get cab options tailored to your route, timing & preferences.",
+              },
+              {
+                icon: "💰",
+                title: "Affordable Luxury",
+                desc: "Save money while enjoying comfort with AI-optimized fares.",
+              },
+              {
+                icon: "⚡",
+                title: "Instant Trip Modes",
+                desc: "One-way, round-trip or outstation — get instant suggestions.",
+              },
+              {
+                icon: "✨",
+                title: "Personalized Journeys",
+                desc: "AI learns your habits & suggests travel that suits your vibe.",
+              },
+            ].map((card, i) => (
+              <div
+                key={i}
+                className="flex items-start gap-4 p-5 rounded-2xl bg-white/10 hover:bg-white/20 transition transform hover:scale-105"
+              >
+                <span className="text-red-500 text-2xl">{card.icon}</span>
+                <div>
+                  <h3 className="text-lg font-semibold">{card.title}</h3>
+                  <p className="text-gray-300 text-sm">{card.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-10 text-center italic text-gray-300 text-lg">
+            "Smarter rides, unforgettable journeys."
+          </p>
+        </div>
+
+        {/* Right Form Section */}
+        <div className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl p-10">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <h2 className="text-3xl font-bold text-center text-red-600 flex items-center justify-center gap-2">
+              <Sparkles className="w-6 h-6 text-yellow-500" /> Plan Your Trip
+            </h2>
+
             <div className="grid md:grid-cols-2 gap-6">
-              {/* Trip Duration */}
-              <div className="space-y-2">
-                <Label htmlFor="duration" className="text-black dark:text-white font-medium">
-                  Trip Duration
+              {/* Duration */}
+              <div>
+                <Label className="flex items-center gap-2 text-sm font-medium">
+                  <Calendar className="w-4 h-4 text-red-600" /> Duration
                 </Label>
-                <Select value={formData.duration} onValueChange={(value) => updateFormData("duration", value)}>
-                  <SelectTrigger className="bg-white dark:bg-black/50 border border-red-600/30 text-black dark:text-white focus:ring-2 focus:ring-red-600 transition">
+                <Select value={formData.duration} onValueChange={(v) => updateFormData("duration", v)}>
+                  <SelectTrigger className="mt-2 rounded-xl border-red-200">
                     <SelectValue placeholder="Select duration" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-gray-900 border border-red-600/30">
+                  <SelectContent>
                     <SelectItem value="1-2">1-2 Days</SelectItem>
                     <SelectItem value="3-5">3-5 Days</SelectItem>
                     <SelectItem value="1-week">1 Week</SelectItem>
@@ -94,127 +172,137 @@ export function TripPlannerForm() {
               </div>
 
               {/* Location */}
-              <div className="space-y-2">
-                <Label htmlFor="location" className="text-black dark:text-white font-medium">
-                  Your Current Location
+              <div>
+                <Label className="flex items-center gap-2 text-sm font-medium">
+                  <MapPin className="w-4 h-4 text-red-600" /> Starting Location
                 </Label>
                 <Input
-                  id="location"
                   value={formData.location}
                   onChange={(e) => updateFormData("location", e.target.value)}
-                  placeholder="e.g., Mumbai, Delhi, Bangalore"
-                  className="bg-white dark:bg-black/50 border border-red-600/30 text-black dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:ring-2 focus:ring-red-600 transition"
+                  placeholder="e.g. Delhi, Mumbai"
+                  className="mt-2 rounded-xl"
                   required
                 />
               </div>
 
-              {/* Travel Distance */}
-              <div className="space-y-2">
-                <Label className="text-black dark:text-white font-medium">Preferred Travel Distance</Label>
-                <Select value={formData.distance} onValueChange={(value) => updateFormData("distance", value)}>
-                  <SelectTrigger className="bg-white dark:bg-black/50 border border-red-600/30 text-black dark:text-white focus:ring-2 focus:ring-red-600 transition">
+              {/* Distance */}
+              <div>
+                <Label className="flex items-center gap-2 text-sm font-medium">
+                  <Plane className="w-4 h-4 text-red-600" /> Distance
+                </Label>
+                <Select value={formData.distance} onValueChange={(v) => updateFormData("distance", v)}>
+                  <SelectTrigger className="mt-2 rounded-xl border-red-200">
                     <SelectValue placeholder="Select distance" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-gray-900 border border-red-600/30">
-                    <SelectItem value="local">Within City (0-50km)</SelectItem>
-                    <SelectItem value="nearby">Nearby (50-200km)</SelectItem>
-                    <SelectItem value="state">Within State (200-500km)</SelectItem>
-                    <SelectItem value="national">National (500-1500km)</SelectItem>
+                  <SelectContent>
+                    <SelectItem value="local">0-50km</SelectItem>
+                    <SelectItem value="nearby">50-200km</SelectItem>
+                    <SelectItem value="state">200-500km</SelectItem>
+                    <SelectItem value="national">500-1500km</SelectItem>
                     <SelectItem value="international">International</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               {/* People */}
-              <div className="space-y-2">
-                <Label className="text-black dark:text-white font-medium">Number of People</Label>
-                <Select value={formData.people} onValueChange={(value) => updateFormData("people", value)}>
-                  <SelectTrigger className="bg-white dark:bg-black/50 border border-red-600/30 text-black dark:text-white focus:ring-2 focus:ring-red-600 transition">
+              <div>
+                <Label className="flex items-center gap-2 text-sm font-medium">
+                  <Users className="w-4 h-4 text-red-600" /> People
+                </Label>
+                <Select value={formData.people} onValueChange={(v) => updateFormData("people", v)}>
+                  <SelectTrigger className="mt-2 rounded-xl border-red-200">
                     <SelectValue placeholder="Select group size" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-gray-900 border border-red-600/30">
-                    <SelectItem value="solo">Solo Travel</SelectItem>
-                    <SelectItem value="couple">Couple (2 people)</SelectItem>
-                    <SelectItem value="small-group">Small Group (3-5 people)</SelectItem>
-                    <SelectItem value="large-group">Large Group (6+ people)</SelectItem>
-                    <SelectItem value="family">Family with Kids</SelectItem>
+                  <SelectContent>
+                    <SelectItem value="solo">Solo</SelectItem>
+                    <SelectItem value="couple">Couple</SelectItem>
+                    <SelectItem value="small-group">3-5 People</SelectItem>
+                    <SelectItem value="large-group">6+ People</SelectItem>
+                    <SelectItem value="family">Family</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               {/* Trip Type */}
-              <div className="space-y-2">
-                <Label className="text-black dark:text-white font-medium">Trip Type Preference</Label>
-                <Select value={formData.tripType} onValueChange={(value) => updateFormData("tripType", value)}>
-                  <SelectTrigger className="bg-white dark:bg-black/50 border border-red-600/30 text-black dark:text-white focus:ring-2 focus:ring-red-600 transition">
-                    <SelectValue placeholder="Select trip type" />
+              <div>
+                <Label className="flex items-center gap-2 text-sm font-medium">
+                  <Star className="w-4 h-4 text-red-600" /> Trip Type
+                </Label>
+                <Select value={formData.tripType} onValueChange={(v) => updateFormData("tripType", v)}>
+                  <SelectTrigger className="mt-2 rounded-xl border-red-200">
+                    <SelectValue placeholder="Select type" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-gray-900 border border-red-600/30">
-                    <SelectItem value="temples">Temples & Spiritual</SelectItem>
-                    <SelectItem value="mountains">Mountains & Trekking</SelectItem>
-                    <SelectItem value="beaches">Beaches & Coastal</SelectItem>
-                    <SelectItem value="cities">Cities & Urban</SelectItem>
-                    <SelectItem value="wildlife">Wildlife & Nature</SelectItem>
-                    <SelectItem value="adventure">Adventure Sports</SelectItem>
-                    <SelectItem value="heritage">Heritage & History</SelectItem>
-                    <SelectItem value="relaxation">Relaxation & Wellness</SelectItem>
+                  <SelectContent>
+                    <SelectItem value="temples">Spiritual</SelectItem>
+                    <SelectItem value="mountains">Mountains</SelectItem>
+                    <SelectItem value="beaches">Beaches</SelectItem>
+                    <SelectItem value="cities">City Life</SelectItem>
+                    <SelectItem value="wildlife">Wildlife</SelectItem>
+                    <SelectItem value="adventure">Adventure</SelectItem>
+                    <SelectItem value="heritage">Heritage</SelectItem>
+                    <SelectItem value="relaxation">Wellness</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               {/* Budget */}
-              <div className="space-y-2">
-                <Label className="text-black dark:text-white font-medium">Budget Range (per person)</Label>
-                <Select value={formData.budget} onValueChange={(value) => updateFormData("budget", value)}>
-                  <SelectTrigger className="bg-white dark:bg-black/50 border border-red-600/30 text-black dark:text-white focus:ring-2 focus:ring-red-600 transition">
+              <div>
+                <Label className="flex items-center gap-2 text-sm font-medium">
+                  <span className="text-red-600">₹</span> Budget
+                </Label>
+                <Select value={formData.budget} onValueChange={(v) => updateFormData("budget", v)}>
+                  <SelectTrigger className="mt-2 rounded-xl border-red-200">
                     <SelectValue placeholder="Select budget" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-gray-900 border border-red-600/30">
-                    <SelectItem value="budget">Budget (₹5,000-15,000)</SelectItem>
-                    <SelectItem value="mid-range">Mid-range (₹15,000-35,000)</SelectItem>
-                    <SelectItem value="luxury">Luxury (₹35,000+)</SelectItem>
+                  <SelectContent>
+                    <SelectItem value="budget">₹5K-15K</SelectItem>
+                    <SelectItem value="mid-range">₹15K-35K</SelectItem>
+                    <SelectItem value="luxury">₹35K+</SelectItem>
                     <SelectItem value="flexible">Flexible</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
 
-            {/* Additional Preferences */}
-            <div className="space-y-2">
-              <Label className="text-black dark:text-white font-medium">Additional Preferences (Optional)</Label>
+            {/* Additional */}
+            <div>
+              <Label className="flex items-center gap-2 text-sm font-medium">
+                ✨ Special Preferences
+              </Label>
               <Textarea
-                id="additionalPreferences"
                 value={formData.additionalPreferences}
                 onChange={(e) => updateFormData("additionalPreferences", e.target.value)}
-                placeholder="Any specific requirements, interests, or things you want to avoid..."
-                className="bg-white dark:bg-black/50 border border-red-600/30 text-black dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 min-h-[100px] focus:ring-2 focus:ring-red-600 transition"
+                placeholder="Hidden gems, food, culture, or things to avoid..."
+                className="mt-2 rounded-xl"
               />
             </div>
 
-            {/* Submit Button */}
+            {/* Submit */}
             <Button
               type="submit"
-              disabled={isLoading || !formData.location || !formData.duration}
-              className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold py-3 rounded-lg shadow-md transition-all duration-300"
+              disabled={isLoading}
+              className="w-full h-12 rounded-2xl bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-semibold shadow-lg transform transition hover:scale-105"
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Getting AI Suggestions...
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" /> Please wait, Your result is ready in few seconds...
                 </>
               ) : (
                 <>
-                  <Send className="mr-2 h-5 w-5" />
-                  Get AI Trip Suggestions
+                  <Send className="mr-2 h-5 w-5" /> Create My Trip
                 </>
               )}
             </Button>
           </form>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      {/* AI Suggestions Output */}
-      {suggestions && <TripSuggestions suggestions={suggestions} />}
+      {/* Modal for Suggestions */}
+      <TripSuggestionsModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        suggestions={aiResponse}
+      />
     </div>
   )
 }

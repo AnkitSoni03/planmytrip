@@ -1,274 +1,384 @@
-// "use client";
-
-// import { motion } from "framer-motion";
-// import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-// import { Card, CardContent } from "@/components/ui/card";
-// import { CalendarIcon, MapPin, User, Phone } from "lucide-react";
-
-// export function BookingForm() {
-//   return (
-//     <section className="relative py-20">
-//       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20" />
-//       <div className="max-w-3xl mx-auto relative z-10 px-6">
-//         <motion.div
-//           initial={{ opacity: 0, y: 50 }}
-//           whileInView={{ opacity: 1, y: 0 }}
-//           transition={{ duration: 0.7 }}
-//         >
-//           <Card className="backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl rounded-2xl">
-//             <CardContent className="p-8">
-//               <h2 className="text-3xl font-extrabold text-white mb-6 text-center tracking-wide">
-//                 Book Your Trip ✈️
-//               </h2>
-//               <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
-//                 {/* Name */}
-//                 <div className="relative">
-//                   <User className="absolute left-3 top-3 text-white/70" size={20} />
-//                   <Input
-//                     type="text"
-//                     placeholder="Full Name"
-//                     className="pl-10 bg-white/20 border-white/30 text-white placeholder:text-white/60"
-//                   />
-//                 </div>
-
-//                 {/* Phone */}
-//                 <div className="relative">
-//                   <Phone className="absolute left-3 top-3 text-white/70" size={20} />
-//                   <Input
-//                     type="tel"
-//                     placeholder="Phone Number"
-//                     className="pl-10 bg-white/20 border-white/30 text-white placeholder:text-white/60"
-//                   />
-//                 </div>
-
-//                 {/* From Location */}
-//                 <div className="relative">
-//                   <MapPin className="absolute left-3 top-3 text-white/70" size={20} />
-//                   <Input
-//                     type="text"
-//                     placeholder="From Location"
-//                     className="pl-10 bg-white/20 border-white/30 text-white placeholder:text-white/60"
-//                   />
-//                 </div>
-
-//                 {/* To Location */}
-//                 <div className="relative">
-//                   <MapPin className="absolute left-3 top-3 text-white/70" size={20} />
-//                   <Input
-//                     type="text"
-//                     placeholder="To Location"
-//                     className="pl-10 bg-white/20 border-white/30 text-white placeholder:text-white/60"
-//                   />
-//                 </div>
-
-//                 {/* Date */}
-//                 <div className="relative md:col-span-2">
-//                   <CalendarIcon className="absolute left-3 top-3 text-white/70" size={20} />
-//                   <Input
-//                     type="date"
-//                     className="pl-10 bg-white/20 border-white/30 text-white placeholder:text-white/60"
-//                   />
-//                 </div>
-//               </form>
-
-//               {/* Submit Button */}
-//               <div className="mt-8 text-center">
-//                 <Button
-//                   size="lg"
-//                   className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-10 py-3 rounded-xl shadow-lg transition-transform hover:scale-105"
-//                 >
-//                   Confirm Booking
-//                 </Button>
-//               </div>
-//             </CardContent>
-//           </Card>
-//         </motion.div>
-//       </div>
-//     </section>
-//   );
-// }
-
-
-"use client";
+"use client"
 import { useState } from "react";
+import {
+  Car,
+  Clock,
+  Users,
+  Calendar,
+  MapPin,
+  Phone,
+  Mail,
+  User,
+} from "lucide-react";
 
-export default function BookingForm() {
+export default function CabBookingForm() {
   const [formData, setFormData] = useState({
-    name: "",
+    fullName: "",
+    phone: "",
     email: "",
-    pickup: "",
-    drop: "",
-    people: "",
-    vehicle: "",
-    date: "",
-    days: "",
+    pickupDate: "",
+    pickupTime: "",
+    pickupLocation: "",
+    dropLocation: "",
+    passengers: "",
+    vehicleType: "",
+    specificVehicle: "",
+    direction: "one-way",
+    package: "regular",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const [vehicleOptions, setVehicleOptions] = useState<string[]>([]);
+
+  const vehicleData: Record<string, string[]> = {
+    cab: [
+      "Sedan (4 seater)",
+      "Hatchback (4 seater)",
+      "SUV (7 seater)",
+      "Luxury Car (4 seater)",
+      "Premium SUV (7 seater)",
+    ],
+    "tempo-traveller": [
+      "9 Seater Tempo",
+      "12 Seater Tempo",
+      "15 Seater Tempo",
+      "20 Seater Tempo",
+    ],
+    bus: [
+      "25 Seater Mini Bus",
+      "35 Seater Bus",
+      "45 Seater Bus",
+      "50+ Seater Luxury Bus",
+    ],
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (name === "vehicleType") {
+      setVehicleOptions(vehicleData[value] || []);
+      setFormData({ ...formData, vehicleType: value, specificVehicle: "" });
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form Submitted", formData);
-    // yaha API call karega booking ke liye
+    console.log("Booking Details:", formData);
+    alert("Booking submitted successfully! We'll contact you soon.");
+  };
+
+  const handleReset = () => {
+    setFormData({
+      fullName: "",
+      phone: "",
+      email: "",
+      pickupDate: "",
+      pickupTime: "",
+      pickupLocation: "",
+      dropLocation: "",
+      passengers: "",
+      vehicleType: "",
+      specificVehicle: "",
+      direction: "one-way",
+      package: "regular",
+    });
+    setVehicleOptions([]);
   };
 
   return (
-    <div className="max-w-3xl mx-auto my-12 px-6">
-      <h2 className="text-3xl font-extrabold text-center text-neutral-900 dark:text-white mb-6">
-        Book Your <span className="text-red-600">Cab</span>
-      </h2>
-
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white dark:bg-neutral-900 shadow-lg rounded-2xl p-8 space-y-5 border border-neutral-200 dark:border-neutral-700"
-      >
-        {/* Full Name */}
-        <div>
-          <label className="block text-sm font-medium mb-2 text-neutral-700 dark:text-neutral-300">
-            Full Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Enter your full name"
-            className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-600 border-neutral-300 dark:border-neutral-600 bg-transparent"
-            required
-          />
+    <div className="min-h-screen py-10 px-4">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-10">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-2">
+            Book Your <span className="text-red-600">Ride</span>
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 text-lg">
+            Your destination is our goal
+          </p>
         </div>
 
-        {/* Email */}
-        <div>
-          <label className="block text-sm font-medium mb-2 text-neutral-700 dark:text-neutral-300">
-            Email
-          </label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Enter your email"
-            className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-600 border-neutral-300 dark:border-neutral-600 bg-transparent"
-            required
-          />
-        </div>
-
-        {/* Pickup Location */}
-        <div>
-          <label className="block text-sm font-medium mb-2 text-neutral-700 dark:text-neutral-300">
-            Pickup Location
-          </label>
-          <input
-            type="text"
-            name="pickup"
-            value={formData.pickup}
-            onChange={handleChange}
-            placeholder="Where should we pick you up?"
-            className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-600 border-neutral-300 dark:border-neutral-600 bg-transparent"
-            required
-          />
-        </div>
-
-        {/* Drop Location */}
-        <div>
-          <label className="block text-sm font-medium mb-2 text-neutral-700 dark:text-neutral-300">
-            Destination
-          </label>
-          <input
-            type="text"
-            name="drop"
-            value={formData.drop}
-            onChange={handleChange}
-            placeholder="Enter your destination"
-            className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-600 border-neutral-300 dark:border-neutral-600 bg-transparent"
-            required
-          />
-        </div>
-
-        {/* People + Days */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div>
-            <label className="block text-sm font-medium mb-2 text-neutral-700 dark:text-neutral-300">
-              Number of People
-            </label>
-            <input
-              type="number"
-              name="people"
-              value={formData.people}
-              onChange={handleChange}
-              placeholder="e.g. 4"
-              className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-600 border-neutral-300 dark:border-neutral-600 bg-transparent"
-              required
-            />
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Services Section */}
+          <div className="lg:col-span-1">
+            <div className="backdrop-blur-md rounded-2xl p-6 border border-gray-300 dark:border-gray-700 shadow-lg">
+              <h3 className="text-2xl font-bold text-red-600 mb-6">
+                What We Provide You
+              </h3>
+              <ul className="space-y-4">
+                {[
+                  "24x7 Cab service available",
+                  "Online booking facility",
+                  "GPS Tracking system",
+                  "Credit & debit card payment facility",
+                  "Professional & experienced drivers",
+                  "Competitive pricing",
+                ].map((item, i) => (
+                  <li
+                    key={i}
+                    className="flex items-center gap-3 text-gray-900 dark:text-white"
+                  >
+                    <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-2 text-neutral-700 dark:text-neutral-300">
-              Number of Days
-            </label>
-            <input
-              type="number"
-              name="days"
-              value={formData.days}
-              onChange={handleChange}
-              placeholder="e.g. 3"
-              className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-600 border-neutral-300 dark:border-neutral-600 bg-transparent"
-              required
-            />
+          {/* Booking Form */}
+          <div className="lg:col-span-2">
+            <form
+              onSubmit={handleSubmit}
+              className="backdrop-blur-md rounded-2xl p-8 border border-gray-300 dark:border-gray-700 shadow-xl"
+            >
+              {/* Personal Details */}
+              <div className="mb-8">
+                <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6 border-b border-gray-300 dark:border-gray-700 pb-2">
+                  Personal Details
+                </h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
+                      <User className="inline w-4 h-4 mr-2" /> Full Name
+                    </label>
+                    <input
+                      type="text"
+                      name="fullName"
+                      value={formData.fullName}
+                      onChange={handleChange}
+                      className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-900 dark:text-white placeholder-gray-500 focus:border-red-600 focus:outline-none transition-colors"
+                      placeholder="Enter your full name"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
+                      <Phone className="inline w-4 h-4 mr-2" /> Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-900 dark:text-white placeholder-gray-500 focus:border-red-600 focus:outline-none transition-colors"
+                      placeholder="Enter phone number"
+                      required
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
+                      <Mail className="inline w-4 h-4 mr-2" /> Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-900 dark:text-white placeholder-gray-500 focus:border-red-600 focus:outline-none transition-colors"
+                      placeholder="Enter your email address"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Booking Details */}
+              <div className="mb-8">
+                <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6 border-b border-gray-300 dark:border-gray-700 pb-2">
+                  Booking Details
+                </h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
+                      <Calendar className="inline w-4 h-4 mr-2" /> Pick-up Date
+                    </label>
+                    <input
+                      type="date"
+                      name="pickupDate"
+                      value={formData.pickupDate}
+                      onChange={handleChange}
+                      min={new Date().toISOString().split("T")[0]}
+                      className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:border-red-600 focus:outline-none transition-colors"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
+                      <Clock className="inline w-4 h-4 mr-2" /> Pick-up Time
+                    </label>
+                    <input
+                      type="time"
+                      name="pickupTime"
+                      value={formData.pickupTime}
+                      onChange={handleChange}
+                      className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:border-red-600 focus:outline-none transition-colors"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
+                      <MapPin className="inline w-4 h-4 mr-2" /> Pick-up Location
+                    </label>
+                    <input
+                      type="text"
+                      name="pickupLocation"
+                      value={formData.pickupLocation}
+                      onChange={handleChange}
+                      className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-900 dark:text-white placeholder-gray-500 focus:border-red-600 focus:outline-none transition-colors"
+                      placeholder="Enter pickup location"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
+                      <MapPin className="inline w-4 h-4 mr-2" /> Drop-off
+                      Location
+                    </label>
+                    <input
+                      type="text"
+                      name="dropLocation"
+                      value={formData.dropLocation}
+                      onChange={handleChange}
+                      className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-900 dark:text-white placeholder-gray-500 focus:border-red-600 focus:outline-none transition-colors"
+                      placeholder="Enter drop-off location"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
+                      <Users className="inline w-4 h-4 mr-2" /> No. of Passengers
+                    </label>
+                    <select
+                      name="passengers"
+                      value={formData.passengers}
+                      onChange={handleChange}
+                      className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:border-red-600 focus:outline-none transition-colors"
+                      required
+                    >
+                      <option value="">Select passengers</option>
+                      {[...Array(20)].map((_, i) => (
+                        <option key={i + 1} value={i + 1}>
+                          {i + 1} {i === 0 ? "Passenger" : "Passengers"}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
+                      Direction
+                    </label>
+                    <select
+                      name="direction"
+                      value={formData.direction}
+                      onChange={handleChange}
+                      className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:border-red-600 focus:outline-none transition-colors"
+                    >
+                      <option value="one-way">One Way</option>
+                      <option value="round-trip">Round Trip</option>
+                      <option value="multi-city">Multi City</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Vehicle Selection */}
+                <div className="grid md:grid-cols-2 gap-6 mt-6">
+                  <div>
+                    <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
+                      <Car className="inline w-4 h-4 mr-2" /> Choose Vehicle Type
+                    </label>
+                    <select
+                      name="vehicleType"
+                      value={formData.vehicleType}
+                      onChange={handleChange}
+                      className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:border-red-600 focus:outline-none transition-colors"
+                      required
+                    >
+                      <option value="">Select vehicle type</option>
+                      <option value="cab">Cab</option>
+                      <option value="tempo-traveller">Tempo Traveller</option>
+                      <option value="bus">Bus</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
+                      Choose Vehicle
+                    </label>
+                    <select
+                      name="specificVehicle"
+                      value={formData.specificVehicle}
+                      onChange={handleChange}
+                      className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-900 dark:text-white focus:border-red-600 focus:outline-none transition-colors"
+                      required
+                      disabled={!formData.vehicleType}
+                    >
+                      <option value="">
+                        {formData.vehicleType
+                          ? "Select specific vehicle"
+                          : "Choose vehicle type first"}
+                      </option>
+                      {vehicleOptions.map((vehicle, index) => (
+                        <option key={index} value={vehicle}>
+                          {vehicle}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Package Selection */}
+              <div className="mb-8">
+                <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6 border-b border-gray-300 dark:border-gray-700 pb-2">
+                  Select Your Package
+                </h3>
+                <div className="flex flex-wrap gap-4">
+                  {["regular", "pro", "advanced"].map((pkg) => (
+                    <label key={pkg} className="flex items-center cursor-pointer">
+                      <input
+                        type="radio"
+                        name="package"
+                        value={pkg}
+                        checked={formData.package === pkg}
+                        onChange={handleChange}
+                        className="sr-only"
+                      />
+                      <div
+                        className={`px-6 py-3 rounded-lg border-2 transition-all ${
+                          formData.package === pkg
+                            ? "border-red-600 bg-red-600/10 text-red-600"
+                            : "border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-gray-500"
+                        }`}
+                      >
+                        {pkg.charAt(0).toUpperCase() + pkg.slice(1)}
+                      </div>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Submit Buttons */}
+              <div className="flex gap-4">
+                <button
+                  type="submit"
+                  className="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                >
+                  Submit
+                </button>
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="flex-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 border border-gray-400 dark:border-gray-600"
+                >
+                  Reset
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-
-        {/* Vehicle */}
-        <div>
-          <label className="block text-sm font-medium mb-2 text-neutral-700 dark:text-neutral-300">
-            Choose Your Vehicle
-          </label>
-          <select
-            name="vehicle"
-            value={formData.vehicle}
-            onChange={handleChange}
-            className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-600 border-neutral-300 dark:border-neutral-600 bg-transparent"
-            required
-          >
-            <option value="">Select a vehicle</option>
-            <option value="sedan">Sedan</option>
-            <option value="suv">SUV</option>
-            <option value="hatchback">Hatchback</option>
-            <option value="luxury">Luxury Car</option>
-            <option value="tempo">Tempo Traveller</option>
-          </select>
-        </div>
-
-        {/* Date */}
-        <div>
-          <label className="block text-sm font-medium mb-2 text-neutral-700 dark:text-neutral-300">
-            Pickup Date
-          </label>
-          <input
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-600 border-neutral-300 dark:border-neutral-600 bg-transparent"
-            required
-          />
-        </div>
-
-        {/* Submit */}
-        <div className="text-center">
-          <button
-            type="submit"
-            className="px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl shadow-md transition-all"
-          >
-            Book Now
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 }
-
