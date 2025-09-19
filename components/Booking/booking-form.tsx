@@ -329,36 +329,6 @@ export default function CabBookingForm() {
                 </div>
               </div>
 
-              {/* Package Selection */}
-              <div className="mb-8">
-                <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6 border-b border-gray-300 dark:border-gray-700 pb-2">
-                  Select Your Package
-                </h3>
-                <div className="flex flex-wrap gap-4">
-                  {["regular", "pro", "advanced"].map((pkg) => (
-                    <label key={pkg} className="flex items-center cursor-pointer">
-                      <input
-                        type="radio"
-                        name="package"
-                        value={pkg}
-                        checked={formData.package === pkg}
-                        onChange={handleChange}
-                        className="sr-only"
-                      />
-                      <div
-                        className={`px-6 py-3 rounded-lg border-2 transition-all ${
-                          formData.package === pkg
-                            ? "border-red-600 bg-red-600/10 text-red-600"
-                            : "border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-gray-500"
-                        }`}
-                      >
-                        {pkg.charAt(0).toUpperCase() + pkg.slice(1)}
-                      </div>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
               {/* Submit Buttons */}
               <div className="flex gap-4">
                 <button

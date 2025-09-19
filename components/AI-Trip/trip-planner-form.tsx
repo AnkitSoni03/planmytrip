@@ -100,7 +100,7 @@ export function TripPlannerForm() {
         {/* Left Info Section */}
         <div className="p-10 bg-gradient-to-br from-black/80 to-red-900/40 flex flex-col justify-center">
           <h2 className="text-4xl md:text-5xl font-extrabold text-center text-white mb-10">
-            <span className="text-orange-500">AI-Powered</span> Trip Planner
+            <span className="text-red-500">AI-Powered</span> Trip Planner
           </h2>
 
           <div className="space-y-6 text-white">
