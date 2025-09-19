@@ -9,9 +9,6 @@ import {
   Menu,
   X,
   Car,
-  MapPin,
-  Calendar,
-  Phone,
   ChevronDown,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -108,13 +105,6 @@ function Navbar() {
                 >
                   Sign In
                 </Button>
-                <Button
-                  size="sm"
-                  className="relative overflow-hidden bg-gradient-to-r from-red-600 to-rose-600 text-white hover:from-red-700 hover:to-rose-700 shadow-lg hover:shadow-xl transition-all duration-300 group"
-                >
-                  <span className="relative z-10">Book Now</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-rose-600 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </Button>
               </div>
             </div>
 
@@ -209,34 +199,6 @@ function Navbar() {
                   >
                     Sign In
                   </Button>
-                  <Button
-                    className="w-full bg-gradient-to-r from-red-600 to-rose-600 text-white hover:from-red-700 hover:to-rose-700 shadow-lg hover:shadow-xl transition-all duration-300"
-                    onClick={closeMobileMenu}
-                  >
-                    Book Now
-                  </Button>
-                </div>
-
-                {/* Quick Stats */}
-                <div className="mt-6 grid grid-cols-3 gap-4 text-center">
-                  <div className="p-3 rounded-lg bg-red-50 dark:bg-red-950/20">
-                    <Car className="h-5 w-5 text-red-600 mx-auto mb-1" />
-                    <p className="text-xs text-red-600 font-medium">
-                      500+ Cars
-                    </p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-red-50 dark:bg-red-950/20">
-                    <MapPin className="h-5 w-5 text-red-600 mx-auto mb-1" />
-                    <p className="text-xs text-red-600 font-medium">
-                      50+ Locations
-                    </p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-red-50 dark:bg-red-950/20">
-                    <Calendar className="h-5 w-5 text-red-600 mx-auto mb-1" />
-                    <p className="text-xs text-red-600 font-medium">
-                      24/7 Support
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>

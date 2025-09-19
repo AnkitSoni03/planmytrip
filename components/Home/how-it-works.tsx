@@ -40,7 +40,7 @@ export function CarRentalHowItWorks() {
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="w-full h-64 object-cover transition-transform duration-500"
+                        className="w-full h-80 object-cover transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
                     </div>
