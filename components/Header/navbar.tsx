@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -97,15 +98,31 @@ function Navbar() {
 
               <ModeToggle />
 
-              <div className="flex gap-3">
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="text-muted-foreground hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 transition-all duration-300"
-                >
-                  Sign In
-                </Button>
-              </div>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+
+              <SignedOut>
+                <div className="flex gap-2">
+                  <SignInButton mode="modal">
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="bg-gradient-to-r from-red-500 to-red-600 text-white hover:opacity-90 transition"
+                    >
+                      Login
+                    </Button>
+                  </SignInButton>
+                  {/* <SignUpButton mode="modal">
+                    <Button
+                      size="sm"
+                      className="bg-gradient-to-r from-red-500 to-red-600 text-white hover:opacity-90 transition"
+                    >
+                      Signup
+                    </Button>
+                  </SignUpButton> */}
+                </div>
+              </SignedOut>
             </div>
 
             {/* Mobile Menu Button */}
@@ -191,15 +208,29 @@ function Navbar() {
 
               {/* Quick Actions */}
               <div className="p-6 border-t border-border bg-muted/30">
-                <div className="space-y-3">
-                  <Button
-                    className="w-full text-muted-foreground hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 border-border transition-all duration-300"
-                    variant="outline"
-                    onClick={closeMobileMenu}
-                  >
-                    Sign In
-                  </Button>
-                </div>
+                <SignedIn>
+                  <UserButton />
+                </SignedIn>
+
+                <SignedOut>
+                  <SignInButton mode="modal">
+                    <Button
+                      className="w-full hover:text-red-500 hover:bg-red-500/10 transition"
+                      variant="outline"
+                      onClick={closeMobileMenu}
+                    >
+                      Login
+                    </Button>
+                  </SignInButton>
+                  {/* <SignUpButton mode="modal">
+                    <Button
+                      className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white hover:opacity-90 transition"
+                      onClick={closeMobileMenu}
+                    >
+                      Signup
+                    </Button>
+                  </SignUpButton> */}
+                </SignedOut>
               </div>
             </div>
           </div>

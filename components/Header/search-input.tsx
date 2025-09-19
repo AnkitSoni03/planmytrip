@@ -15,7 +15,7 @@ const SearchInput = () => {
           type="search"
           name="search"
           defaultValue={params.get("search") || ""}
-          placeholder="Search articles..."
+          placeholder="Search Vehicles..."
           className="pl-10 w-48 focus-visible:ring-1"
         />
       </div>
