@@ -14,7 +14,7 @@ interface TripSuggestionsModalProps {
 }
 
 export default function TripSuggestionsModal({ isOpen, onClose, suggestions }: TripSuggestionsModalProps) {
-  const [activeLang, setActiveLang] = useState<"english" | "hindi">("english")
+  const [activeLang] = useState<"english" | "hindi">("english")
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -27,26 +27,7 @@ export default function TripSuggestionsModal({ isOpen, onClose, suggestions }: T
 
         {/* Language Tabs */}
         <div className="flex gap-6 border-b border-neutral-700 pb-2">
-          <button
-            onClick={() => setActiveLang("english")}
-            className={`text-sm font-medium pb-1 ${
-              activeLang === "english"
-                ? "text-red-500 border-b-2 border-red-500"
-                : "text-gray-400 hover:text-gray-200"
-            }`}
-          >
-            English
-          </button>
-          <button
-            onClick={() => setActiveLang("hindi")}
-            className={`text-sm font-medium pb-1 ${
-              activeLang === "hindi"
-                ? "text-red-500 border-b-2 border-red-500"
-                : "text-gray-400 hover:text-gray-200"
-            }`}
-          >
-            हिंदी
-          </button>
+          
         </div>
 
         {/* AI Response */}

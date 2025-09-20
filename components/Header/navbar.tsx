@@ -113,14 +113,6 @@ function Navbar() {
                       Login
                     </Button>
                   </SignInButton>
-                  {/* <SignUpButton mode="modal">
-                    <Button
-                      size="sm"
-                      className="bg-gradient-to-r from-red-500 to-red-600 text-white hover:opacity-90 transition"
-                    >
-                      Signup
-                    </Button>
-                  </SignUpButton> */}
                 </div>
               </SignedOut>
             </div>
@@ -186,7 +178,7 @@ function Navbar() {
               </div>
 
               {/* Navigation Links */}
-              <div className="flex-1 overflow-y-auto py-6">
+              <div className="flex-1 overflow-y-auto py-15">
                 <div className="space-y-1 px-6">
                   {navItems.map((item) => (
                     <Link
@@ -222,14 +214,6 @@ function Navbar() {
                       Login
                     </Button>
                   </SignInButton>
-                  {/* <SignUpButton mode="modal">
-                    <Button
-                      className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white hover:opacity-90 transition"
-                      onClick={closeMobileMenu}
-                    >
-                      Signup
-                    </Button>
-                  </SignUpButton> */}
                 </SignedOut>
               </div>
             </div>
