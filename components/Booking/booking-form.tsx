@@ -195,7 +195,7 @@ export default function CabBookingForm() {
               />
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
+            {/* <div className="grid md:grid-cols-2 gap-4">
               <select
                 name="passengers"
                 value={formData.passengers}
@@ -204,7 +204,7 @@ export default function CabBookingForm() {
                 required
               >
                 <option value="">Passengers</option>
-                {[...Array(20)].map((_, i) => (
+                {[...Array(80)].map((_, i) => (
                   <option key={i + 1} value={i + 1}>
                     {i + 1}
                   </option>
@@ -214,48 +214,78 @@ export default function CabBookingForm() {
                 name="direction"
                 value={formData.direction}
                 onChange={handleChange}
-                className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none"
+                className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none text-black dark:text-gray-900"
+
               >
                 <option value="one-way">One Way</option>
                 <option value="round-trip">Round Trip</option>
                 <option value="multi-city">Multi City</option>
               </select>
-            </div>
+            </div> */}
 
             <div className="grid md:grid-cols-2 gap-4">
-              <select
-                name="vehicleType"
-                value={formData.vehicleType}
-                onChange={handleChange}
-                className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none"
-                required
-              >
-                <option value="">Vehicle Type</option>
-                <option value="cab">Cab</option>
-                <option value="tempo-traveller">Tempo Traveller</option>
-                <option value="bus">Bus</option>
-              </select>
-              <select
-                name="specificVehicle"
-                value={formData.specificVehicle}
-                onChange={handleChange}
-                className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none"
-                required
-                disabled={!formData.vehicleType}
-              >
-                <option value="">
-                  {formData.vehicleType ? "Select Vehicle" : "Choose Type First"}
-                </option>
-                {vehicleOptions.map((vehicle, index) => (
-                  <option key={index} value={vehicle}>
-                    {vehicle}
-                  </option>
-                ))}
-              </select>
-            </div>
+  <select
+    name="passengers"
+    value={formData.passengers}
+    onChange={handleChange}
+    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none text-gray-900 dark:text-gray-100"
+    required
+  >
+    <option value="" className="text-gray-500 dark:text-gray-400">Passengers</option>
+    {[...Array(80)].map((_, i) => (
+      <option key={i + 1} value={i + 1} className="text-gray-900 dark:text-gray-100">
+        {i + 1}
+      </option>
+    ))}
+  </select>
+  
+  <select
+    name="direction"
+    value={formData.direction}
+    onChange={handleChange}
+    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none text-gray-900 dark:text-gray-100"
+  >
+    <option value="one-way" className="text-gray-900 dark:text-gray-100">One Way</option>
+    <option value="round-trip" className="text-gray-900 dark:text-gray-100">Round Trip</option>
+    <option value="multi-city" className="text-gray-900 dark:text-gray-100">Multi City</option>
+  </select>
+</div>
+
+         <div className="grid md:grid-cols-2 gap-4">
+  <select
+    name="vehicleType"
+    value={formData.vehicleType}
+    onChange={handleChange}
+    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none text-gray-900 dark:text-gray-100"
+    required
+  >
+    <option value="" className="text-gray-500 dark:text-gray-400">Vehicle Type</option>
+    <option value="cab" className="text-gray-900 dark:text-gray-100">Cab</option>
+    <option value="tempo-traveller" className="text-gray-900 dark:text-gray-100">Tempo Traveller</option>
+    <option value="bus" className="text-gray-900 dark:text-gray-100">Bus</option>
+  </select>
+  
+  <select
+    name="specificVehicle"
+    value={formData.specificVehicle}
+    onChange={handleChange}
+    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none text-gray-900 dark:text-gray-100 disabled:opacity-60 disabled:cursor-not-allowed"
+    required
+    disabled={!formData.vehicleType}
+  >
+    <option value="" className="text-gray-500 dark:text-gray-400">
+      {formData.vehicleType ? "Select Vehicle" : "Choose Type First"}
+    </option>
+    {vehicleOptions.map((vehicle, index) => (
+      <option key={index} value={vehicle} className="text-gray-900 dark:text-gray-100">
+        {vehicle}
+      </option>
+    ))}
+  </select>
+</div>
 
             {/* Buttons */}
-            <div className="flex gap-3">
+            <div className="grid md:grid-cols-2 gap-4">
               <button
                 type="submit"
                 disabled={loading}

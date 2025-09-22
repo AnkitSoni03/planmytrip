@@ -78,15 +78,7 @@ export default function CanceledBookingsPage() {
       <div className="flex justify-between items-center mb-8">
         <div className="flex items-center">
           <h1 className="text-3xl font-bold text-foreground">Canceled Bookings</h1>
-          {bookings.length > 0 && (
-            <span className="ml-4 bg-destructive/10 text-destructive px-3 py-1 rounded-full text-sm font-medium">
-              {bookings.length} canceled
-            </span>
-          )}
         </div>
-        <Link href="/my-bookings">
-          <Button variant="outline">View Active Bookings</Button>
-        </Link>
       </div>
 
       {bookings.length === 0 ? (

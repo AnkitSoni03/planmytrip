@@ -40,22 +40,31 @@ function DashboardSidebar({ closeSheet }: { closeSheet?: () => void }) {
   const pathname = usePathname();
   const links = [
     { href: "/my-bookings", label: "Confirm Booking", icon: LayoutDashboard },
-    { href: "/my-bookings/cenceled-booking", label: "Booking Cencel", icon: FileText },
+    { href: "/my-bookings/cenceled-booking", label: "Cancelled Booking", icon: FileText },
     { href: "/my-bookings/feedback", label: "Feedback", icon: MessageCircle },
   ];
 
   return (
     <div className="h-full px-4 py-6">
       <div className="flex items-center pb-5">
-        <Link href="/" className="flex items-center space-x-2">
-          <Image
-            src="/pmt-logo-dark.png"
-            alt="The Diary Logo"
-            width={80}
-            height={60}
-            className="h-auto w-auto"
-          />
-        </Link>
+        <Link href={"/"}>
+              <Image
+                src="/pmt-logo.png"
+                alt="PlanMyTrip Logo"
+                width={150}
+                height={60}
+                className="h-auto w-auto dark:hidden"
+              />
+
+              {/* Dark Mode Logo */}
+              <Image
+                src="/pmt-logo-dark.png"
+                alt="PlanMyTrip Logo Dark"
+                width={150}
+                height={60}
+                className="h-auto w-auto hidden dark:block"
+              />
+              </Link>
       </div>
 
       <nav className="space-y-1">

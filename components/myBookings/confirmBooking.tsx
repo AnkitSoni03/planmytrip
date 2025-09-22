@@ -20,6 +20,9 @@ interface Booking {
 export default function MyBookingsPage() {
   const [activeBookings, setActiveBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [bookingToCancel, setBookingToCancel] = useState<string | null>(null);
+  const [canceling, setCanceling] = useState(false);
 
   // ✅ Fetch bookings
   useEffect(() => {
@@ -48,10 +51,25 @@ export default function MyBookingsPage() {
     fetchBookings();
   }, []);
 
+  // ✅ Open cancel confirmation modal
+  const openCancelModal = (bookingId: string) => {
+    setBookingToCancel(bookingId);
+    setShowCancelModal(true);
+  };
+
+  // ✅ Close cancel modal
+  const closeCancelModal = () => {
+    setShowCancelModal(false);
+    setBookingToCancel(null);
+  };
+
   // ✅ Cancel booking
-  const cancelBooking = async (id: string) => {
+  const cancelBooking = async () => {
+    if (!bookingToCancel) return;
+
     try {
-      const res = await fetch(`/api/my-bookings/${id}`, {
+      setCanceling(true);
+      const res = await fetch(`/api/my-bookings/${bookingToCancel}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: "canceled" }),
@@ -59,13 +77,15 @@ export default function MyBookingsPage() {
 
       const data = await res.json();
       if (res.ok && data.ok) {
-        setActiveBookings((prev) => prev.filter((b) => b.id !== id));
+        setActiveBookings((prev) => prev.filter((b) => b.id !== bookingToCancel));
+        closeCancelModal();
       } else {
-        alert("Cancel failed: " + data.error);
+        console.error("Cancel failed:", data.error);
       }
     } catch (error) {
       console.error("Error canceling booking:", error);
-      alert("Failed to cancel booking. Please try again.");
+    } finally {
+      setCanceling(false);
     }
   };
 
@@ -106,7 +126,7 @@ export default function MyBookingsPage() {
               No Active Bookings
             </h3>
             <p className="text-gray-500 dark:text-gray-400">
-              You don’t have any active bookings right now.
+              You don't have any active bookings right now.
             </p>
           </div>
         </div>
@@ -173,27 +193,21 @@ export default function MyBookingsPage() {
                       Amount
                     </p>
                     <p className="text-gray-800 dark:text-gray-100 font-semibold">
-                      ₹{booking.paymentAmt}
+                      ₹{booking.paymentAmt}Payed
                     </p>
                   </div>
                 </div>
 
                 <Button
                   variant="destructive"
-                  className="w-full text-base dark:bg-red-500"
-                  onClick={() => {
-                    if (
-                      confirm("Are you sure you want to cancel this booking?")
-                    ) {
-                      cancelBooking(booking.id);
-                    }
-                  }}
+                  className="w-full text-base hover:bg-red-600 dark:bg-red-500"
+                  onClick={() => openCancelModal(booking.id)}
                 >
                   Cancel Booking
                 </Button>
               </CardContent>
 
-              <p className="text-gray-600 dark:text-gray-200 text-xs font-medium text-center pt-0">
+              <p className="text-gray-600 dark:text-gray-200 text-xs font-medium text-center pt-0 pb-4">
                 {new Date(booking.createdAt).toLocaleDateString("en-IN", {
                   weekday: "long",
                   year: "numeric",
@@ -208,6 +222,68 @@ export default function MyBookingsPage() {
               </p>
             </Card>
           ))}
+        </div>
+      )}
+
+      {/* Professional Cancel Confirmation Modal */}
+      {showCancelModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl transform transition-all">
+            <div className="flex items-center mb-4">
+              <div className="flex-shrink-0">
+                <svg
+                  className="h-6 w-6 text-red-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                  />
+                </svg>
+              </div>
+              <div className="ml-3">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                  Cancel Booking
+                </h3>
+              </div>
+            </div>
+            
+            <div className="mb-6">
+              <p className="text-gray-600 dark:text-gray-400">
+                Are you sure you want to cancel this booking? This action cannot be undone.
+              </p>
+            </div>
+            
+            <div className="flex gap-3 justify-end">
+              <Button
+                variant="outline"
+                onClick={closeCancelModal}
+                disabled={canceling}
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+              >
+                Keep Booking
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={cancelBooking}
+                disabled={canceling}
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white dark:bg-red-500"
+              >
+                {canceling ? (
+                  <div className="flex items-center gap-2">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                    Canceling...
+                  </div>
+                ) : (
+                  "Yes, Cancel"
+                )}
+              </Button>
+            </div>
+          </div>
         </div>
       )}
     </div>
