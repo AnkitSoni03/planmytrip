@@ -193,7 +193,7 @@ export default function MyBookingsPage() {
                       Amount
                     </p>
                     <p className="text-gray-800 dark:text-gray-100 font-semibold">
-                      ₹{booking.paymentAmt}Payed
+                      ₹{booking.paymentAmt} Paid
                     </p>
                   </div>
                 </div>

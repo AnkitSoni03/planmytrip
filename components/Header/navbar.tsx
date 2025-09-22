@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import SearchInput from "./search-input";
@@ -17,10 +17,55 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [showNavbar, setShowNavbar] = useState(true);
   const pathname = usePathname();
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+  // Scroll detection effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Set scrolled state
+      setIsScrolled(currentScrollY > 10);
+      
+      // Only apply mobile scroll behavior on mobile screens
+      if (window.innerWidth < 768) {
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          // Scrolling down - show compact navbar
+          setShowNavbar(false);
+        } else if (currentScrollY < lastScrollY) {
+          // Scrolling up - show full navbar
+          setShowNavbar(true);
+        }
+      } else {
+        // Always show navbar on desktop
+        setShowNavbar(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    
+    // Handle window resize
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setShowNavbar(true);
+      }
+    };
+    
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [lastScrollY]);
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -28,7 +73,7 @@ function Navbar() {
     { name: "AI Trip Planner", href: "/ai-trip-planner" },
     { name: "Booking", href: "/booking" },
     { name: "My Bookings", href: "/my-bookings" },
-    ];
+  ];
 
   const isActive = (href: string) => {
     if (href === "/") {
@@ -42,30 +87,43 @@ function Navbar() {
   return (
     <>
       {/* Top Navbar */}
-      <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300">
+      <nav className={`sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300 ${
+        isScrolled ? 'shadow-lg' : ''
+      }`}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex h-20 items-center justify-between">
-            {/* Left Section - Logo */}
-            <div className="flex items-center">
+          <div className={`flex items-center justify-between transition-all duration-300 ${
+            showNavbar ? 'h-20' : 'h-16 md:h-20'
+          }`}>
+            {/* Left Section - Logo (Hidden on mobile when scrolling) */}
+            <div className={`flex items-center transition-all duration-300 ${
+              showNavbar ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 md:opacity-100 md:translate-x-0'
+            }`}>
               {/* Light Mode Logo */}
               <Link href={"/"}>
-              <Image
-                src="/pmt-logo.png"
-                alt="PlanMyTrip Logo"
-                width={150}
-                height={60}
-                className="h-auto w-auto dark:hidden"
-              />
+                <Image
+                  src="/pmt-logo.png"
+                  alt="PlanMyTrip Logo"
+                  width={150}
+                  height={60}
+                  className="h-auto w-auto dark:hidden"
+                />
 
-              {/* Dark Mode Logo */}
-              <Image
-                src="/pmt-logo-dark.png"
-                alt="PlanMyTrip Logo Dark"
-                width={150}
-                height={60}
-                className="h-auto w-auto hidden dark:block"
-              />
+                {/* Dark Mode Logo */}
+                <Image
+                  src="/pmt-logo-dark.png"
+                  alt="PlanMyTrip Logo Dark"
+                  width={150}
+                  height={60}
+                  className="h-auto w-auto hidden dark:block"
+                />
               </Link>
+            </div>
+
+            {/* Center Section - Search (Expanded when logo is hidden on mobile) */}
+            <div className={`md:hidden transition-all duration-300 ${
+              showNavbar ? 'opacity-0 scale-95 pointer-events-none absolute' : 'opacity-100 scale-100 flex-1 mx-4'
+            }`}>
+              <SearchInput />
             </div>
 
             {/* Desktop Navigation */}
@@ -117,7 +175,7 @@ function Navbar() {
               </SignedOut>
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button and Controls */}
             <div className="flex items-center gap-2 md:hidden">
               <ModeToggle />
               <Button
@@ -135,8 +193,10 @@ function Navbar() {
             </div>
           </div>
 
-          {/* Mobile Search Bar */}
-          <div className="md:hidden pb-4">
+          {/* Mobile Search Bar (Only shown when navbar is expanded) */}
+          <div className={`md:hidden transition-all duration-300 overflow-hidden ${
+            showNavbar ? 'pb-4 max-h-20 opacity-100' : 'pb-0 max-h-0 opacity-0'
+          }`}>
             <SearchInput />
           </div>
         </div>
