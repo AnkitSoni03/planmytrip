@@ -3,11 +3,9 @@ import React, { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "../ui/button";
 import {
-  BarChart,
   FileText,
   LayoutDashboard,
   MessageCircle,
-  Settings,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -41,9 +39,9 @@ export default Sidebar;
 function DashboardSidebar({ closeSheet }: { closeSheet?: () => void }) {
   const pathname = usePathname();
   const links = [
-    { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
-    { href: "/dashboard/articles/create", label: "Booking Cencel", icon: FileText },
-    { href: "/dashboard/comments", label: "Feedback", icon: MessageCircle },
+    { href: "/my-bookings", label: "Confirm Booking", icon: LayoutDashboard },
+    { href: "/my-bookings/cenceled-booking", label: "Booking Cencel", icon: FileText },
+    { href: "/my-bookings/feedback", label: "Feedback", icon: MessageCircle },
   ];
 
   return (
@@ -69,7 +67,7 @@ function DashboardSidebar({ closeSheet }: { closeSheet?: () => void }) {
                 variant="ghost"
                 className={`w-full justify-start ${
                   isActive
-                    ? "bg-red-500 text-white hover:bg-red-600" // 🔥 Active Golden Theme
+                    ? "bg-red-500 text-white hover:bg-red-600"
                     : ""
                 }`}
                 onClick={closeSheet}

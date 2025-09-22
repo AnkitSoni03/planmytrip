@@ -1,8 +1,10 @@
 "use client";
 import { useState } from "react";
-import { Calendar, Clock, MapPin, Users, Car, Send, RotateCcw } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Clock, MapPin, Users, Car, Send, RotateCcw } from "lucide-react";
 
 export default function CabBookingForm() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -18,6 +20,7 @@ export default function CabBookingForm() {
   });
 
   const [vehicleOptions, setVehicleOptions] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const vehicleData: Record<string, string[]> = {
     cab: [
@@ -41,7 +44,9 @@ export default function CabBookingForm() {
     ],
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
@@ -53,8 +58,12 @@ export default function CabBookingForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Booking Details:", formData);
-    alert("✅ Booking submitted successfully! We'll contact you soon.");
+    setLoading(true);
+
+    // 👉 form data ko Preview page pe bhejenge query params ke through
+    router.push(
+      `/booking-preview?data=${encodeURIComponent(JSON.stringify(formData))}`
+    );
   };
 
   const handleReset = () => {
@@ -77,7 +86,6 @@ export default function CabBookingForm() {
   return (
     <div className="flex justify-center px-4 py-8 mt-2">
       <div className="max-w-5xl w-full rounded-xl shadow-lg overflow-hidden grid lg:grid-cols-[40%_60%] bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700">
-        
         {/* Left Info Section */}
         <div className="p-8 bg-gradient-to-br from-red-800 to-red-600 text-white flex flex-col justify-center">
           <h2 className="text-3xl font-bold mb-6 text-center">
@@ -111,7 +119,9 @@ export default function CabBookingForm() {
             <h2 className="text-2xl font-bold text-red-700 dark:text-red-400 flex items-center justify-center gap-2">
               <Car className="w-5 h-5" /> Book Your Ride
             </h2>
-            <p className="text-slate-600 dark:text-slate-300 mt-2 text-sm">Fill in your travel details to book a cab instantly</p>
+            <p className="text-slate-600 dark:text-slate-300 mt-2 text-sm">
+              Fill in your travel details to book a cab instantly
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -248,9 +258,11 @@ export default function CabBookingForm() {
             <div className="flex gap-3">
               <button
                 type="submit"
+                disabled={loading}
                 className="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 rounded-md flex items-center justify-center gap-2"
               >
-                <Send className="w-4 h-4" /> Submit
+                <Send className="w-4 h-4" />
+                {loading ? "Please wait..." : "Preview Booking"}
               </button>
               <button
                 type="button"

@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
-import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -27,7 +27,7 @@ function Navbar() {
     { name: "Fleet", href: "/fleet" },
     { name: "AI Trip Planner", href: "/ai-trip-planner" },
     { name: "Booking", href: "/booking" },
-    { name: "Dashboard", href: "/dashboard" },
+    { name: "My Bookings", href: "/my-bookings" },
     ];
 
   const isActive = (href: string) => {

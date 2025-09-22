@@ -33,7 +33,7 @@ model Booking {
   tripType    String
   vehicleType String
   paymentAmt  Float
-  status      String   @default("pending")
+  status      String   @default("confirm")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -1,4 +1,4 @@
-import Sidebar from "@/components/dashboard/sidebar";
+import Sidebar from "@/components/myBookings/sidebar";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (

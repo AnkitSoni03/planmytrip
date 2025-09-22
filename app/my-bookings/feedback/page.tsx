@@ -1,10 +1,10 @@
-import CabBookingForm from '@/components/Booking/booking-form'
+import FeedbackPage from '@/components/myBookings/feedback'
 import React from 'react'
 
 function page() {
   return (
     <div>
-      <CabBookingForm />
+      <FeedbackPage />
     </div>
   )
 }

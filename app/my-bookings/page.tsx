@@ -1,10 +1,10 @@
-import { DiaryDashboard } from '@/components/dashboard/diary-dashboard'
+import MyBookingsPage from '@/components/myBookings/confirmBooking'
 import React from 'react'
 
 function page() {
   return (
     <div>
-      <DiaryDashboard />
+      <MyBookingsPage />
     </div>
   )
 }
