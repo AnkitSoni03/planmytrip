@@ -79,8 +79,114 @@ export function CarRentalHowItWorks() {
   );
 }
 
-// Steps content with images
-const howItWorksSteps = [
+// // Steps content with images
+// const howItWorksSteps = [
+//   {
+//     title: "Choose Location 🌍",
+//     description: (
+//       <div>
+//         <p className="mb-3">
+//           Select your pickup and drop locations easily with our simple interface.
+//         </p>
+//         <p>
+//           Whether it’s within the city or outstation, we cover multiple
+//           locations to suit your travel needs.
+//         </p>
+//       </div>
+//     ),
+//     badge: "Step 1",
+//     features: [
+//       "Pickup & Drop Selection",
+//       "Multiple City Coverage",
+//       "Easy Location Search",
+//     ],
+//     image:
+//       "/choose-location.jpg",
+//   },
+//   {
+//     title: "Select Vehicle 🚖🚐🚌",
+//     description: (
+//       <div>
+//         <p className="mb-3">
+//           Choose the right vehicle based on your group size and budget — cabs,
+//           tempo travellers, or mini buses.
+//         </p>
+//         <p>
+//           From economy rides to luxury travel, we have the perfect option for
+//           every journey.
+//         </p>
+//       </div>
+//     ),
+//     badge: "Step 2",
+//     features: [
+//       "Wide Vehicle Options",
+//       "Budget & Luxury Choices",
+//       "Group-Friendly Rides",
+//     ],
+//     image:
+//       "/select-vehicle.jpg",
+//   },
+//   {
+//     title: "Make Payment 💳",
+//     description: (
+//       <div>
+//         <p className="mb-3">
+//           Securely pay online through UPI, cards, wallets, or net banking. Cash
+//           options are also available.
+//         </p>
+//         <p>
+//           Instant booking confirmation is provided so you can plan worry-free.
+//         </p>
+//       </div>
+//     ),
+//     badge: "Step 3",
+//     features: [
+//       "Secure Payment Options",
+//       "Cash / Online Choice",
+//       "Instant Confirmation",
+//     ],
+//     image:
+//       "/make-payment.jpg",
+//   },
+//   {
+//     title: "Enjoy Your Ride 🎉",
+//     description: (
+//       <div>
+//         <p className="mb-3">
+//           Sit back, relax, and enjoy your journey. Our professional drivers
+//           ensure a safe and smooth ride.
+//         </p>
+//         <p>
+//           Perfect for business, family trips, or vacations — we make your travel
+//           stress-free.
+//         </p>
+//       </div>
+//     ),
+//     badge: "Step 4",
+//     features: [
+//       "Professional Drivers",
+//       "Safe & Comfortable Travel",
+//       "On-Time Pickup",
+//     ],
+//     image:
+//       "/enjoy-ride.jpg",
+//   },
+// ];
+
+// export default CarRentalHowItWorks;
+
+
+
+
+interface Step {
+  title: string;
+  description: React.ReactNode;
+  badge: string;
+  features?: string[];
+  image?: string;
+}
+
+const howItWorksSteps: Step[] = [
   {
     title: "Choose Location 🌍",
     description: (
@@ -100,8 +206,7 @@ const howItWorksSteps = [
       "Multiple City Coverage",
       "Easy Location Search",
     ],
-    image:
-      "/choose-location.jpg",
+    image: "/choose-location.jpg",
   },
   {
     title: "Select Vehicle 🚖🚐🚌",
@@ -118,13 +223,8 @@ const howItWorksSteps = [
       </div>
     ),
     badge: "Step 2",
-    features: [
-      "Wide Vehicle Options",
-      "Budget & Luxury Choices",
-      "Group-Friendly Rides",
-    ],
-    image:
-      "/select-vehicle.jpg",
+    features: ["Wide Vehicle Options", "Budget & Luxury Choices", "Group-Friendly Rides"],
+    image: "/select-vehicle.jpg",
   },
   {
     title: "Make Payment 💳",
@@ -134,19 +234,12 @@ const howItWorksSteps = [
           Securely pay online through UPI, cards, wallets, or net banking. Cash
           options are also available.
         </p>
-        <p>
-          Instant booking confirmation is provided so you can plan worry-free.
-        </p>
+        <p>Instant booking confirmation is provided so you can plan worry-free.</p>
       </div>
     ),
     badge: "Step 3",
-    features: [
-      "Secure Payment Options",
-      "Cash / Online Choice",
-      "Instant Confirmation",
-    ],
-    image:
-      "/make-payment.jpg",
+    features: ["Secure Payment Options", "Cash / Online Choice", "Instant Confirmation"],
+    image: "/make-payment.jpg",
   },
   {
     title: "Enjoy Your Ride 🎉",
@@ -156,20 +249,12 @@ const howItWorksSteps = [
           Sit back, relax, and enjoy your journey. Our professional drivers
           ensure a safe and smooth ride.
         </p>
-        <p>
-          Perfect for business, family trips, or vacations — we make your travel
-          stress-free.
-        </p>
+        <p>Perfect for business, family trips, or vacations — we make your travel stress-free.</p>
       </div>
     ),
     badge: "Step 4",
-    features: [
-      "Professional Drivers",
-      "Safe & Comfortable Travel",
-      "On-Time Pickup",
-    ],
-    image:
-      "/enjoy-ride.jpg",
+    features: ["Professional Drivers", "Safe & Comfortable Travel", "On-Time Pickup"],
+    image: "/enjoy-ride.jpg",
   },
 ];
 
