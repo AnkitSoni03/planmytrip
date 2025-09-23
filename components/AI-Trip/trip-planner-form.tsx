@@ -176,6 +176,7 @@ export function TripPlannerForm() {
                     <SelectItem value="3-5">3-5 Days</SelectItem>
                     <SelectItem value="1-week">1 Week</SelectItem>
                     <SelectItem value="2-weeks">2 Weeks</SelectItem>
+                    <SelectItem value="2-weeks +">2 Weeks +</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -213,6 +214,7 @@ export function TripPlannerForm() {
                     <SelectItem value="nearby">50-200km</SelectItem>
                     <SelectItem value="state">200-500km</SelectItem>
                     <SelectItem value="national">500-1500km</SelectItem>
+                    <SelectItem value="India">1500km +</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -234,7 +236,8 @@ export function TripPlannerForm() {
                     <SelectItem value="solo">Solo</SelectItem>
                     <SelectItem value="couple">Couple</SelectItem>
                     <SelectItem value="small-group">3-5 People</SelectItem>
-                    <SelectItem value="large-group">6+ People</SelectItem>
+                    <SelectItem value="large-group">6-10 group</SelectItem>
+                    <SelectItem value="large-group">10 + group</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -257,6 +260,16 @@ export function TripPlannerForm() {
                     <SelectItem value="beaches">Beaches</SelectItem>
                     <SelectItem value="cities">City Life</SelectItem>
                     <SelectItem value="adventure">Adventure</SelectItem>
+                    <SelectItem value="historical">Historical Sites</SelectItem>
+                    <SelectItem value="wildlife">Wildlife & Safari</SelectItem>
+                    <SelectItem value="spiritual">Spiritual & Pilgrimage</SelectItem>
+                    <SelectItem value="roadtrips">Road Trips</SelectItem>
+                    <SelectItem value="luxury">Luxury Travel</SelectItem>
+                    <SelectItem value="budget">Budget Trips</SelectItem>
+                    <SelectItem value="trekking">Trekking & Hiking</SelectItem>
+                    <SelectItem value="camping">Camping & Nature</SelectItem>
+                    <SelectItem value="deserts">Desert Exploration</SelectItem>
+                    <SelectItem value="islands">Island Getaways</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
