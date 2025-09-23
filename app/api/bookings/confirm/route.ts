@@ -2,13 +2,18 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
-import { geocodePlace, haversineDistanceKm, calcTotalAmount } from "@/lib/distance";
+import {
+  geocodePlace,
+  haversineDistanceKm,
+  calcTotalAmount,
+} from "@/lib/distance";
 
 export async function POST(req: Request) {
   try {
     // 1) auth verify
     const { userId } = await auth();
-    if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!userId)
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = await req.json();
     /* expected body:
@@ -44,7 +49,11 @@ export async function POST(req: Request) {
 
     if (Number(paymentEntered) !== Number(expectedAmount)) {
       return NextResponse.json(
-        { error: "Payment mismatch. Entered amount does not match expected amount.", expectedAmount },
+        {
+          error:
+            "Payment mismatch. Entered amount does not match expected amount.",
+          expectedAmount,
+        },
         { status: 400 }
       );
     }
@@ -52,7 +61,10 @@ export async function POST(req: Request) {
     // find DB user by clerkId
     const dbUser = await prisma.user.findUnique({ where: { clerkId: userId } });
     if (!dbUser) {
-      return NextResponse.json({ error: "User not found in DB" }, { status: 404 });
+      return NextResponse.json(
+        { error: "User not found in DB" },
+        { status: 404 }
+      );
     }
 
     // create booking
@@ -75,8 +87,9 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ ok: true, booking });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Confirm booking error:", err);
-    return NextResponse.json({ error: err?.message ?? "Server error" }, { status: 500 });
+    const message = err instanceof Error ? err.message : "Server error";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
