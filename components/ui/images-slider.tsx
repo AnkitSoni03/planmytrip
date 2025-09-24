@@ -151,10 +151,6 @@
 //   );
 // };
 
-
-
-
-
 "use client";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence, Variants } from "motion/react";
@@ -240,16 +236,16 @@ export const ImagesSlider = ({
     };
   }, [autoplay]);
 
-  // ✅ Variants with rotateX casted to any for TS safety
+
   const slideVariants: Variants = {
     initial: {
       scale: 0,
       opacity: 0,
-      rotateX: 45 as any,
+      rotateX: 45, // number allowed
     },
     visible: {
       scale: 1,
-      rotateX: 0 as any,
+      rotateX: 0, // number allowed
       opacity: 1,
       transition: {
         duration: 0.5,
