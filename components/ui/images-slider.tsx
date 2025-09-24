@@ -70,7 +70,9 @@ export const ImagesSlider = ({
     window.addEventListener("keydown", handleKeyDown);
 
     // autoplay
-    let interval: any;
+    // let interval: any;
+
+    let interval: NodeJS.Timeout | undefined;
     if (autoplay) {
       interval = setInterval(() => {
         handleNext();
