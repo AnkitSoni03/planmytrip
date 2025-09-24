@@ -1,16 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import SearchInput from "./search-input";
 import { ModeToggle } from "./toggle-mode";
-import {
-  Menu,
-  X,
-  Car,
-  ChevronDown,
-} from "lucide-react";
+import { Menu, X, Car, ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
@@ -29,10 +24,10 @@ function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
+
       // Set scrolled state
       setIsScrolled(currentScrollY > 10);
-      
+
       // Only apply mobile scroll behavior on mobile screens
       if (window.innerWidth < 768) {
         if (currentScrollY > lastScrollY && currentScrollY > 100) {
@@ -46,19 +41,19 @@ function Navbar() {
         // Always show navbar on desktop
         setShowNavbar(true);
       }
-      
+
       setLastScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    
+
     // Handle window resize
     const handleResize = () => {
       if (window.innerWidth >= 768) {
         setShowNavbar(true);
       }
     };
-    
+
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -87,17 +82,25 @@ function Navbar() {
   return (
     <>
       {/* Top Navbar */}
-      <nav className={`sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300 ${
-        isScrolled ? 'shadow-lg' : ''
-      }`}>
+      <nav
+        className={`sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300 ${
+          isScrolled ? "shadow-lg" : ""
+        }`}
+      >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`flex items-center justify-between transition-all duration-300 ${
-            showNavbar ? 'h-20' : 'h-16 md:h-20'
-          }`}>
+          <div
+            className={`flex items-center justify-between transition-all duration-300 ${
+              showNavbar ? "h-20" : "h-16 md:h-20"
+            }`}
+          >
             {/* Left Section - Logo (Hidden on mobile when scrolling) */}
-            <div className={`flex items-center transition-all duration-300 ${
-              showNavbar ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 md:opacity-100 md:translate-x-0'
-            }`}>
+            <div
+              className={`flex items-center transition-all duration-300 ${
+                showNavbar
+                  ? "opacity-100 translate-x-0"
+                  : "opacity-0 -translate-x-4 md:opacity-100 md:translate-x-0"
+              }`}
+            >
               {/* Light Mode Logo */}
               <Link href={"/"}>
                 <Image
@@ -120,10 +123,20 @@ function Navbar() {
             </div>
 
             {/* Center Section - Search (Expanded when logo is hidden on mobile) */}
-            <div className={`md:hidden transition-all duration-300 ${
-              showNavbar ? 'opacity-0 scale-95 pointer-events-none absolute' : 'opacity-100 scale-100 flex-1 mx-4'
-            }`}>
-              <SearchInput />
+            <div
+              className={`md:hidden transition-all duration-300 ${
+                showNavbar
+                  ? "opacity-0 scale-95 pointer-events-none absolute"
+                  : "opacity-100 scale-100 flex-1 mx-4"
+              }`}
+            >
+              <Suspense
+                fallback={
+                  <div className="text-sm text-gray-400">Loading...</div>
+                }
+              >
+                <SearchInput />
+              </Suspense>
             </div>
 
             {/* Desktop Navigation */}
@@ -151,7 +164,13 @@ function Navbar() {
             {/* Right Section */}
             <div className="hidden md:flex items-center gap-4">
               <div className="hidden lg:block">
-                <SearchInput />
+                <Suspense
+                  fallback={
+                    <div className="text-sm text-gray-400">Loading...</div>
+                  }
+                >
+                  <SearchInput />
+                </Suspense>
               </div>
 
               <ModeToggle />
@@ -194,10 +213,18 @@ function Navbar() {
           </div>
 
           {/* Mobile Search Bar (Only shown when navbar is expanded) */}
-          <div className={`md:hidden transition-all duration-300 overflow-hidden ${
-            showNavbar ? 'pb-4 max-h-20 opacity-100' : 'pb-0 max-h-0 opacity-0'
-          }`}>
-            <SearchInput />
+          <div
+            className={`md:hidden transition-all duration-300 overflow-hidden ${
+              showNavbar
+                ? "pb-4 max-h-20 opacity-100"
+                : "pb-0 max-h-0 opacity-0"
+            }`}
+          >
+            <Suspense
+              fallback={<div className="text-sm text-gray-400">Loading...</div>}
+            >
+              <SearchInput />
+            </Suspense>
           </div>
         </div>
       </nav>
