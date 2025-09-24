@@ -55,8 +55,6 @@ export const CabCard = ({
   );
 };
 
-// export const Icon = ({ className, ...rest }: any) => {
-
 export const Icon = ({ className, ...rest }: { className?: string } & React.SVGProps<SVGSVGElement>) => {
   return (
     <svg

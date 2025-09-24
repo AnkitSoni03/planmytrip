@@ -16,13 +16,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = await req.json();
-    /* expected body:
-      {
-        fullName, phone, email, pickupDate, pickupTime,
-        pickupLoc, dropLoc, passengers, tripType, vehicleType,
-        paymentEntered (number)
-      }
-    */
+
     const {
       fullName,
       phone,

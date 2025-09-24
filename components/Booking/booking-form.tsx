@@ -92,18 +92,37 @@ export default function CabBookingForm() {
             Easy <span className="text-red-200">Cab Booking</span>
           </h2>
           <p className="text-red-100 mb-8 text-center text-sm">
-            Book cabs, tempo travellers, and buses instantly with the best prices and trusted service.
+            Book cabs, tempo travellers, and buses instantly with the best
+            prices and trusted service.
           </p>
 
           <div className="space-y-5">
             {[
-              { icon: <Car className="w-5 h-5 text-red-200" />, title: "24x7 Service", desc: "Available anytime, anywhere." },
-              { icon: <MapPin className="w-5 h-5 text-red-200" />, title: "GPS Tracking", desc: "Stay updated with live tracking." },
-              { icon: <Users className="w-5 h-5 text-red-200" />, title: "Experienced Drivers", desc: "Safe and reliable journeys." },
-              { icon: <Clock className="w-5 h-5 text-red-200" />, title: "On-Time Guarantee", desc: "We value your time & trust." },
+              {
+                icon: <Car className="w-5 h-5 text-red-200" />,
+                title: "24x7 Service",
+                desc: "Available anytime, anywhere.",
+              },
+              {
+                icon: <MapPin className="w-5 h-5 text-red-200" />,
+                title: "GPS Tracking",
+                desc: "Stay updated with live tracking.",
+              },
+              {
+                icon: <Users className="w-5 h-5 text-red-200" />,
+                title: "Experienced Drivers",
+                desc: "Safe and reliable journeys.",
+              },
+              {
+                icon: <Clock className="w-5 h-5 text-red-200" />,
+                title: "On-Time Guarantee",
+                desc: "We value your time & trust.",
+              },
             ].map((card, i) => (
               <div key={i} className="flex items-start gap-3">
-                <div className="mt-1 p-2 bg-red-700 rounded-full">{card.icon}</div>
+                <div className="mt-1 p-2 bg-red-700 rounded-full">
+                  {card.icon}
+                </div>
                 <div>
                   <h3 className="font-semibold">{card.title}</h3>
                   <p className="text-sm text-red-100">{card.desc}</p>
@@ -195,94 +214,110 @@ export default function CabBookingForm() {
               />
             </div>
 
-            {/* <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4">
               <select
                 name="passengers"
                 value={formData.passengers}
                 onChange={handleChange}
-                className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none"
+                className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none text-gray-900 dark:text-gray-100"
                 required
               >
-                <option value="">Passengers</option>
+                <option value="" className="text-gray-500 dark:text-gray-400">
+                  Passengers
+                </option>
                 {[...Array(80)].map((_, i) => (
-                  <option key={i + 1} value={i + 1}>
+                  <option
+                    key={i + 1}
+                    value={i + 1}
+                    className="text-gray-900 dark:text-gray-100"
+                  >
                     {i + 1}
                   </option>
                 ))}
               </select>
+
               <select
                 name="direction"
                 value={formData.direction}
                 onChange={handleChange}
-                className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none text-black dark:text-gray-900"
-
+                className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none text-gray-900 dark:text-gray-100"
               >
-                <option value="one-way">One Way</option>
-                <option value="round-trip">Round Trip</option>
-                <option value="multi-city">Multi City</option>
+                <option
+                  value="one-way"
+                  className="text-gray-900 dark:text-gray-100"
+                >
+                  One Way
+                </option>
+                <option
+                  value="round-trip"
+                  className="text-gray-900 dark:text-gray-100"
+                >
+                  Round Trip
+                </option>
+                <option
+                  value="multi-city"
+                  className="text-gray-900 dark:text-gray-100"
+                >
+                  Multi City
+                </option>
               </select>
-            </div> */}
+            </div>
 
             <div className="grid md:grid-cols-2 gap-4">
-  <select
-    name="passengers"
-    value={formData.passengers}
-    onChange={handleChange}
-    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none text-gray-900 dark:text-gray-100"
-    required
-  >
-    <option value="" className="text-gray-500 dark:text-gray-400">Passengers</option>
-    {[...Array(80)].map((_, i) => (
-      <option key={i + 1} value={i + 1} className="text-gray-900 dark:text-gray-100">
-        {i + 1}
-      </option>
-    ))}
-  </select>
-  
-  <select
-    name="direction"
-    value={formData.direction}
-    onChange={handleChange}
-    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none text-gray-900 dark:text-gray-100"
-  >
-    <option value="one-way" className="text-gray-900 dark:text-gray-100">One Way</option>
-    <option value="round-trip" className="text-gray-900 dark:text-gray-100">Round Trip</option>
-    <option value="multi-city" className="text-gray-900 dark:text-gray-100">Multi City</option>
-  </select>
-</div>
+              <select
+                name="vehicleType"
+                value={formData.vehicleType}
+                onChange={handleChange}
+                className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none text-gray-900 dark:text-gray-100"
+                required
+              >
+                <option value="" className="text-gray-500 dark:text-gray-400">
+                  Vehicle Type
+                </option>
+                <option
+                  value="cab"
+                  className="text-gray-900 dark:text-gray-100"
+                >
+                  Cab
+                </option>
+                <option
+                  value="tempo-traveller"
+                  className="text-gray-900 dark:text-gray-100"
+                >
+                  Tempo Traveller
+                </option>
+                <option
+                  value="bus"
+                  className="text-gray-900 dark:text-gray-100"
+                >
+                  Bus
+                </option>
+              </select>
 
-         <div className="grid md:grid-cols-2 gap-4">
-  <select
-    name="vehicleType"
-    value={formData.vehicleType}
-    onChange={handleChange}
-    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none text-gray-900 dark:text-gray-100"
-    required
-  >
-    <option value="" className="text-gray-500 dark:text-gray-400">Vehicle Type</option>
-    <option value="cab" className="text-gray-900 dark:text-gray-100">Cab</option>
-    <option value="tempo-traveller" className="text-gray-900 dark:text-gray-100">Tempo Traveller</option>
-    <option value="bus" className="text-gray-900 dark:text-gray-100">Bus</option>
-  </select>
-  
-  <select
-    name="specificVehicle"
-    value={formData.specificVehicle}
-    onChange={handleChange}
-    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none text-gray-900 dark:text-gray-100 disabled:opacity-60 disabled:cursor-not-allowed"
-    required
-    disabled={!formData.vehicleType}
-  >
-    <option value="" className="text-gray-500 dark:text-gray-400">
-      {formData.vehicleType ? "Select Vehicle" : "Choose Type First"}
-    </option>
-    {vehicleOptions.map((vehicle, index) => (
-      <option key={index} value={vehicle} className="text-gray-900 dark:text-gray-100">
-        {vehicle}
-      </option>
-    ))}
-  </select>
-</div>
+              <select
+                name="specificVehicle"
+                value={formData.specificVehicle}
+                onChange={handleChange}
+                className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:border-red-600 focus:outline-none text-gray-900 dark:text-gray-100 disabled:opacity-60 disabled:cursor-not-allowed"
+                required
+                disabled={!formData.vehicleType}
+              >
+                <option value="" className="text-gray-500 dark:text-gray-400">
+                  {formData.vehicleType
+                    ? "Select Vehicle"
+                    : "Choose Type First"}
+                </option>
+                {vehicleOptions.map((vehicle, index) => (
+                  <option
+                    key={index}
+                    value={vehicle}
+                    className="text-gray-900 dark:text-gray-100"
+                  >
+                    {vehicle}
+                  </option>
+                ))}
+              </select>
+            </div>
 
             {/* Buttons */}
             <div className="grid md:grid-cols-2 gap-4">
