@@ -10,8 +10,9 @@ import {
   CreditCard,
   User,
 } from "lucide-react";
+import Image from "next/image";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default function BookingPreviewPage() {
   const searchParams = useSearchParams();
@@ -45,7 +46,10 @@ export default function BookingPreviewPage() {
   const driverCharge = 500;
   const totalAmount = distance * ratePerKm + driverCharge;
 
+  const [isProcessing, setIsProcessing] = useState(false);
+
   const handlePayment = async () => {
+    setIsProcessing(true); // Loading start
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
@@ -63,6 +67,8 @@ export default function BookingPreviewPage() {
       }
     } catch {
       alert("Network error. Please check your connection and try again.");
+    } finally {
+      setIsProcessing(false); // Loading end
     }
   };
 
@@ -222,6 +228,14 @@ export default function BookingPreviewPage() {
             Complete Payment
           </h3>
 
+          <Image
+            src="/pay.png"
+            alt="PlanMyTrip Logo"
+            width={150}
+            height={60}
+            className="h-auto w-auto pb-4"
+          />
+
           <div className="space-y-4">
             {/* Show Total Amount */}
             <div className="bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-xl p-4 flex items-center justify-between">
@@ -232,13 +246,24 @@ export default function BookingPreviewPage() {
                 ₹{totalAmount}
               </span>
             </div>
-
-            {/* Pay Button */}
             <button
               onClick={handlePayment}
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition"
+              disabled={isProcessing}
+              className={`w-full text-white font-semibold py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2
+                ${
+                  isProcessing
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-green-600 hover:bg-green-700"
+                }`}
             >
-              Pay Now
+              {isProcessing ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Processing...
+                </>
+              ) : (
+                "Pay Now"
+              )}
             </button>
           </div>
         </div>
