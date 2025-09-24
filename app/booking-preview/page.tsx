@@ -124,7 +124,7 @@ export default function BookingPreviewPage() {
               <div>
                 <p className="text-sm text-gray-500 uppercase">From</p>
                 <p className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                  {booking.pickup || "Bangalore"}
+                  {booking.pickupLocation || "ABC"}
                 </p>
               </div>
               <span className="text-xl font-bold text-blue-600 dark:text-blue-400 my-2 sm:mx-4">
@@ -133,7 +133,7 @@ export default function BookingPreviewPage() {
               <div>
                 <p className="text-sm text-gray-500 uppercase">To</p>
                 <p className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                  {booking.destination || "Chennai"}
+                  {booking.dropLocation || "DEF"}
                 </p>
               </div>
             </div>
@@ -145,7 +145,7 @@ export default function BookingPreviewPage() {
                 <div>
                   <p className="text-sm text-gray-500 uppercase">Date</p>
                   <p className="text-gray-800 dark:text-gray-200 font-medium">
-                    {booking.date || "Today"}
+                    {booking.pickupDate || "Today"}
                   </p>
                 </div>
               </div>
@@ -154,7 +154,7 @@ export default function BookingPreviewPage() {
                 <div>
                   <p className="text-sm text-gray-500 uppercase">Time</p>
                   <p className="text-gray-800 dark:text-gray-200 font-medium">
-                    {booking.time || "Now"}
+                    {booking.pickupTime || "Now"}
                   </p>
                 </div>
               </div>
@@ -170,7 +170,7 @@ export default function BookingPreviewPage() {
                 <div>
                   <p className="text-sm text-gray-500">Name</p>
                   <p className="font-medium text-gray-800 dark:text-gray-200">
-                    {booking.name || "Not provided"}
+                    {booking.fullName || "Not provided"}
                   </p>
                 </div>
                 <div>
