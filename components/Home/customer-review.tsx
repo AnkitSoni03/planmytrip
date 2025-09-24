@@ -37,9 +37,9 @@ export function CustomerReview() {
     {
       quote:
         "PlanMyTrip made travel stress-free. Booking was smooth, the car clean, and the journey well organized.",
-      name: "Rahul Sharma",
+      name: "Ankit Soni",
       designation: "Entrepreneur from Delhi",
-      src: "/rahul-sharma.jpeg",
+      src: "/ankit-soni.jpg",
       stars: <p className="text-yellow-500 mt-2">★★★★★</p>,
     },
   ];
