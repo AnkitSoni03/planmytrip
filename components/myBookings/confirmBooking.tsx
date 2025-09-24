@@ -126,7 +126,7 @@ export default function MyBookingsPage() {
               No Active Bookings
             </h3>
             <p className="text-gray-500 dark:text-gray-400">
-              You don't have any active bookings right now.
+              You don&apos;t have any active bookings right now.
             </p>
           </div>
         </div>

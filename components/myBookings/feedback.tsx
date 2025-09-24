@@ -9,9 +9,10 @@ export default function FeedbackPage() {
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState<number>(5);
   const [submitted, setSubmitted] = useState(false);
-  const [userName, setUserName] = useState("");
-  const [feedbacks, setFeedbacks] = useState<any[]>([]);
-
+  // const [userName, setUserName] = useState("");
+  // const [feedbacks, setFeedbacks] = useState<any[]>([]);
+  const [_, setUserName] = useState("");
+  const [feedbacks, setFeedbacks] = useState<{id: string; rating: number; comment: string; user: {name: string}; createdAt: string}[]>([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
