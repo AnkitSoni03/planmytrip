@@ -9,6 +9,7 @@ import {
   Clock,
   CreditCard,
   User,
+  Mail,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -20,6 +21,8 @@ export default function BookingPreviewPage() {
   const data = searchParams.get("data");
 
   const [showCongrats, setShowCongrats] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
 
   if (!data) {
     return (
@@ -46,29 +49,76 @@ export default function BookingPreviewPage() {
   const driverCharge = 500;
   const totalAmount = distance * ratePerKm + driverCharge;
 
-  const [isProcessing, setIsProcessing] = useState(false);
-
   const handlePayment = async () => {
-    setIsProcessing(true); // Loading start
+    setIsProcessing(true);
+    
     try {
+      // Simulate payment processing
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
+      // Generate booking ID
+      const bookingId = `PMT${Date.now().toString().slice(-6)}`;
+
+      // Save booking to database
       const res = await fetch("/api/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...booking, paymentAmt: totalAmount }),
+        body: JSON.stringify({ 
+          ...booking, 
+          paymentAmt: totalAmount,
+          bookingId: bookingId
+        }),
       });
 
       if (res.ok) {
+        // Send confirmation email
+        if (booking.email) {
+          try {
+            const emailRes = await fetch("/api/send-payment-email", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                userEmail: booking.email,
+                userName: booking.fullName || "Valued Customer",
+                bookingDetails: {
+                  bookingId: bookingId,
+                  from: booking.pickupLocation || "Pickup Location",
+                  to: booking.dropLocation || "Drop Location", 
+                  date: booking.pickupDate || "Today",
+                  time: booking.pickupTime || "Now",
+                  amount: totalAmount
+                }
+              }),
+            });
+
+            const emailResult = await emailRes.json();
+            
+            if (emailResult.success) {
+              console.log("✅ Email sent successfully!");
+              setEmailSent(true);
+            } else {
+              console.error("❌ Email failed:", emailResult.error);
+              // Still show success page even if email fails
+            }
+          } catch (emailError) {
+            console.error("❌ Email sending error:", emailError);
+            // Continue with booking success even if email fails
+          }
+        }
+
+        // Show congratulations
         setShowCongrats(true);
-        setTimeout(() => router.push("/my-bookings"), 3000);
+        
+        // Redirect after 4 seconds
+        setTimeout(() => router.push("/my-bookings"), 4000);
       } else {
         alert("Error saving booking. Please try again.");
       }
-    } catch {
+    } catch (error) {
+      console.error("Payment error:", error);
       alert("Network error. Please check your connection and try again.");
     } finally {
-      setIsProcessing(false); // Loading end
+      setIsProcessing(false);
     }
   };
 
@@ -80,11 +130,28 @@ export default function BookingPreviewPage() {
             <CheckCircle className="w-12 h-12 text-green-500" />
           </div>
           <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">
-            Congratulations!
+            Congratulations! 🎉
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
             Your booking has been confirmed successfully.
           </p>
+          
+          {/* Email Status */}
+          {booking.email && (
+            <div className={`flex items-center justify-center gap-2 mb-6 p-3 rounded-lg ${
+              emailSent 
+                ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400' 
+                : 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400'
+            }`}>
+              <Mail className="w-4 h-4" />
+              <span className="text-sm">
+                {emailSent 
+                  ? '✅ Confirmation email sent!' 
+                  : '📧 Sending confirmation email...'}
+              </span>
+            </div>
+          )}
+          
           <div className="bg-gray-50 dark:bg-zinc-800 rounded-lg p-4 mb-6">
             <p className="text-gray-800 dark:text-gray-200 font-medium">
               Booking ID: #BK{Date.now().toString().slice(-6)}
@@ -92,6 +159,11 @@ export default function BookingPreviewPage() {
             <p className="text-blue-600 dark:text-blue-400 text-sm mt-1">
               Amount Paid: ₹{totalAmount}
             </p>
+            {booking.email && (
+              <p className="text-gray-500 dark:text-gray-400 text-xs mt-2">
+                📧 Confirmation sent to: {booking.email}
+              </p>
+            )}
           </div>
           <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center justify-center space-x-2">
             <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
@@ -115,9 +187,21 @@ export default function BookingPreviewPage() {
           </p>
         </div>
 
+        {/* Email Warning if not provided */}
+        {!booking.email && (
+          <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+            <div className="flex items-center gap-2">
+              <Mail className="w-5 h-5 text-yellow-600" />
+              <p className="text-yellow-800 dark:text-yellow-200 text-sm">
+                <strong>Note:</strong> No email provided. You won't receive a confirmation email.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Trip Details */}
         <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-lg overflow-hidden">
-          <div className=" p-6 text-white">
+          <div className="p-6 text-white">
             <h2 className="text-xl text-gray-800 dark:text-white font-semibold mb-2">
               Trip Details
             </h2>
@@ -246,6 +330,18 @@ export default function BookingPreviewPage() {
                 ₹{totalAmount}
               </span>
             </div>
+            
+            {booking.email && (
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-3">
+                <div className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-blue-600" />
+                  <span className="text-blue-800 dark:text-blue-200 text-sm">
+                    Confirmation email will be sent to: <strong>{booking.email}</strong>
+                  </span>
+                </div>
+              </div>
+            )}
+            
             <button
               onClick={handlePayment}
               disabled={isProcessing}
@@ -259,7 +355,7 @@ export default function BookingPreviewPage() {
               {isProcessing ? (
                 <>
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Processing...
+                  Processing Payment...
                 </>
               ) : (
                 "Pay Now"
