@@ -49,7 +49,7 @@ function DashboardSidebar({ closeSheet }: { closeSheet?: () => void }) {
       <div className="flex items-center pb-5">
         <Link href={"/"}>
               <Image
-                src="/pmt-logo.png"
+                src="/logo-new-white.png"
                 alt="PlanMyTrip Logo"
                 width={150}
                 height={60}
@@ -58,7 +58,7 @@ function DashboardSidebar({ closeSheet }: { closeSheet?: () => void }) {
 
               {/* Dark Mode Logo */}
               <Image
-                src="/pmt-logo-dark.png"
+                src="/logo-new.png"
                 alt="PlanMyTrip Logo Dark"
                 width={150}
                 height={60}

@@ -101,7 +101,7 @@ function Navbar() {
               {/* Light Mode Logo */}
               <Link href={"/"}>
                 <Image
-                  src="/pmt-logo.png"
+                  src="/logo-new-white.png"
                   alt="PlanMyTrip Logo"
                   width={150}
                   height={60}
@@ -110,7 +110,7 @@ function Navbar() {
 
                 {/* Dark Mode Logo */}
                 <Image
-                  src="/pmt-logo-dark.png"
+                  src="/logo-new.png"
                   alt="PlanMyTrip Logo Dark"
                   width={150}
                   height={60}
