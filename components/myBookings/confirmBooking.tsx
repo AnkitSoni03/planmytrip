@@ -15,14 +15,17 @@ interface Booking {
   paymentAmt: number;
   status: string;
   createdAt: string;
+  email: string;
 }
 
 export default function MyBookingsPage() {
   const [activeBookings, setActiveBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCancelModal, setShowCancelModal] = useState(false);
-  const [bookingToCancel, setBookingToCancel] = useState<string | null>(null);
+  const [bookingToCancel, setBookingToCancel] = useState<Booking | null>(null);
   const [canceling, setCanceling] = useState(false);
+  const [cancellationReason, setCancellationReason] = useState("");
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   // ✅ Fetch bookings
   useEffect(() => {
@@ -52,15 +55,25 @@ export default function MyBookingsPage() {
   }, []);
 
   // ✅ Open cancel confirmation modal
-  const openCancelModal = (bookingId: string) => {
-    setBookingToCancel(bookingId);
+  const openCancelModal = (booking: Booking) => {
+    setBookingToCancel(booking);
     setShowCancelModal(true);
+    setCancellationReason("");
   };
 
   // ✅ Close cancel modal
   const closeCancelModal = () => {
     setShowCancelModal(false);
     setBookingToCancel(null);
+    setCancellationReason("");
+  };
+
+  // ✅ Show success message
+  const showSuccessPopup = () => {
+    setShowSuccessMessage(true);
+    setTimeout(() => {
+      setShowSuccessMessage(false);
+    }, 3000); // Auto hide after 3 seconds
   };
 
   // ✅ Cancel booking
@@ -69,16 +82,25 @@ export default function MyBookingsPage() {
 
     try {
       setCanceling(true);
-      const res = await fetch(`/api/my-bookings/${bookingToCancel}`, {
+      
+      // Update booking status and send email from API
+      const res = await fetch(`/api/my-bookings/${bookingToCancel.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: "canceled" }),
+        body: JSON.stringify({ 
+          status: "canceled",
+          cancellationReason: cancellationReason 
+        }),
       });
 
       const data = await res.json();
+      
       if (res.ok && data.ok) {
-        setActiveBookings((prev) => prev.filter((b) => b.id !== bookingToCancel));
+        // Update UI
+        setActiveBookings((prev) => prev.filter((b) => b.id !== bookingToCancel.id));
         closeCancelModal();
+        // Show success message
+        showSuccessPopup();
       } else {
         console.error("Cancel failed:", data.error);
       }
@@ -201,7 +223,7 @@ export default function MyBookingsPage() {
                 <Button
                   variant="destructive"
                   className="w-full text-base hover:bg-red-600 dark:bg-red-500"
-                  onClick={() => openCancelModal(booking.id)}
+                  onClick={() => openCancelModal(booking)}
                 >
                   Cancel Booking
                 </Button>
@@ -225,8 +247,8 @@ export default function MyBookingsPage() {
         </div>
       )}
 
-      {/* Professional Cancel Confirmation Modal */}
-      {showCancelModal && (
+      {/* Enhanced Cancel Confirmation Modal */}
+      {showCancelModal && bookingToCancel && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl transform transition-all">
             <div className="flex items-center mb-4">
@@ -252,10 +274,30 @@ export default function MyBookingsPage() {
               </div>
             </div>
             
-            <div className="mb-6">
-              <p className="text-gray-600 dark:text-gray-400">
+            <div className="mb-4">
+              <p className="text-gray-600 dark:text-gray-400 mb-3">
                 Are you sure you want to cancel this booking? This action cannot be undone.
               </p>
+              
+              <div className="mb-3">
+                <label htmlFor="reason" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Reason for cancellation (optional):
+                </label>
+                <textarea
+                  id="reason"
+                  value={cancellationReason}
+                  onChange={(e) => setCancellationReason(e.target.value)}
+                  placeholder="Please share your reason for cancellation..."
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 dark:bg-gray-700 dark:text-white"
+                  rows={3}
+                />
+              </div>
+
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-md p-3">
+                <p className="text-sm text-yellow-800 dark:text-yellow-200">
+                  <strong>Refund Information:</strong> ₹{bookingToCancel.paymentAmt} will be refunded to your original payment method within 5-7 business days.
+                </p>
+              </div>
             </div>
             
             <div className="flex gap-3 justify-end">
@@ -279,9 +321,40 @@ export default function MyBookingsPage() {
                     Canceling...
                   </div>
                 ) : (
-                  "Yes, Cancel"
+                  "Yes, Cancel Booking"
                 )}
               </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Success Message Popup */}
+      {showSuccessMessage && (
+        <div className="fixed top-4 right-4 z-50 animate-in slide-in-from-right duration-300">
+          <div className="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg p-4 shadow-lg max-w-sm">
+            <div className="flex items-center gap-3">
+              <div className="flex-shrink-0">
+                <svg className="h-5 w-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h4 className="text-sm font-medium text-green-800 dark:text-green-200">
+                  Booking Cancelled Successfully
+                </h4>
+                <p className="text-sm text-green-700 dark:text-green-300 mt-1">
+                  Your booking has been cancelled. Refund will be processed within 5-7 business days.
+                </p>
+              </div>
+              <button
+                onClick={() => setShowSuccessMessage(false)}
+                className="flex-shrink-0 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-200"
+              >
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
