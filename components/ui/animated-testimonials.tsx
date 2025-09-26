@@ -2,7 +2,6 @@
 
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
 import { motion, AnimatePresence } from "motion/react";
-
 import { useEffect, useState } from "react";
 
 type Testimonial = {
@@ -11,6 +10,7 @@ type Testimonial = {
   designation: string;
   src: string;
 };
+
 export const AnimatedTestimonials = ({
   testimonials,
   autoplay = false,
@@ -44,21 +44,21 @@ export const AnimatedTestimonials = ({
   };
 
   return (
-    <div className="mx-auto max-w-sm px-4 py-20 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
-      <div className="max-w-7xl mx-auto px-6 text-center mb-14">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-neutral-900 dark:text-white">
+    <div className="mx-auto max-w-sm px-4 py-10 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
+      <div className="max-w-7xl mx-auto px-6 text-center mb-10 md:mb-14">
+        <h2 className="text-2xl md:text-4xl font-extrabold text-neutral-900 dark:text-white">
           Happy <span className="text-red-600">Customers</span>
         </h2>
-        <p className="mt-3 text-neutral-600 dark:text-neutral-400 text-lg max-w-2xl mx-auto">
+        <p className="mt-3 text-neutral-600 dark:text-neutral-400 text-sm md:text-lg max-w-2xl mx-auto">
           See what our customers are saying about their travel experiences with
           us.
         </p>
       </div>
 
-      <div className="relative grid grid-cols-1 gap-20 md:grid-cols-2">
+      <div className="relative grid grid-cols-1 gap-10 md:gap-20 md:grid-cols-2">
         <div>
-          {/* Mobile: h-60 (240px), Desktop: h-80 (320px) */}
-          <div className="relative h-60 w-full md:h-80">
+          {/* Mobile: h-48 (192px), Desktop: h-80 (320px) */}
+          <div className="relative h-48 w-full md:h-80">
             <AnimatePresence>
               {testimonials.map((testimonial, index) => (
                 <motion.div
@@ -77,8 +77,8 @@ export const AnimatedTestimonials = ({
                     zIndex: isActive(index)
                       ? 40
                       : testimonials.length + 2 - index,
-                    // Reduce bounce animation on mobile
-                    y: isActive(index) ? [0, -40, 0] : 0,
+                    // Mobile ke liye bounce animation reduce kiya
+                    y: isActive(index) ? [0, -20, 0] : 0,
                   }}
                   exit={{
                     opacity: 0,
@@ -87,7 +87,6 @@ export const AnimatedTestimonials = ({
                     rotate: randomRotateY(),
                   }}
                   transition={{
-                    // Faster, smoother transition
                     duration: 0.3,
                     ease: "easeInOut",
                   }}
@@ -99,14 +98,15 @@ export const AnimatedTestimonials = ({
                     width={500}
                     height={500}
                     draggable={false}
-                    className="h-full w-full rounded-3xl object-cover object-center"
+                    className="h-full w-full rounded-2xl md:rounded-3xl object-cover object-center"
                   />
                 </motion.div>
               ))}
             </AnimatePresence>
           </div>
         </div>
-        <div className="flex flex-col justify-between py-4">
+        
+        <div className="flex flex-col justify-between py-2 md:py-4">
           <motion.div
             key={active}
             initial={{
@@ -126,17 +126,17 @@ export const AnimatedTestimonials = ({
               ease: "easeInOut",
             }}
           >
-            <h3 className="text-2xl font-bold text-black dark:text-white">
+            <h3 className="text-xl md:text-2xl font-bold text-black dark:text-white">
               {testimonials[active].name}
             </h3>
-            <p className="text-sm text-gray-500 dark:text-neutral-500">
+            <p className="text-xs md:text-sm text-gray-500 dark:text-neutral-500">
               {testimonials[active].designation}
             </p>
 
-            {/* ⭐ Static Stars Line */}
-            <p className="mt-2 text-yellow-500 text-lg">★★★★★</p>
+            {/* ⭐ Static Stars Line - Mobile ke liye chota */}
+            <p className="mt-1 md:mt-2 text-yellow-500 text-base md:text-lg">★★★★★</p>
 
-            <motion.p className="mt-8 text-lg text-gray-500 dark:text-neutral-300">
+            <motion.p className="mt-4 md:mt-8 text-sm md:text-lg text-gray-500 dark:text-neutral-300">
               {testimonials[active].quote.split(" ").map((word, index) => (
                 <motion.span
                   key={index}
@@ -163,18 +163,18 @@ export const AnimatedTestimonials = ({
             </motion.p>
           </motion.div>
 
-          <div className="flex gap-4 pt-6 md:pt-0 ">
+          <div className="flex gap-4 pt-4 md:pt-0">
             <button
               onClick={handlePrev}
-              className="group/button flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-neutral-800"
+              className="group/button flex h-6 w-6 md:h-7 md:w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-neutral-800"
             >
-              <IconArrowLeft className="h-5 w-5 text-black transition-transform duration-300 group-hover/button:rotate-12 dark:text-neutral-400" />
+              <IconArrowLeft className="h-4 w-4 md:h-5 md:w-5 text-black transition-transform duration-300 group-hover/button:rotate-12 dark:text-neutral-400" />
             </button>
             <button
               onClick={handleNext}
-              className="group/button flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-neutral-800"
+              className="group/button flex h-6 w-6 md:h-7 md:w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-neutral-800"
             >
-              <IconArrowRight className="h-5 w-5 text-black transition-transform duration-300 group-hover/button:-rotate-12 dark:text-neutral-400" />
+              <IconArrowRight className="h-4 w-4 md:h-5 md:w-5 text-black transition-transform duration-300 group-hover/button:-rotate-12 dark:text-neutral-400" />
             </button>
           </div>
         </div>
