@@ -96,14 +96,14 @@ function Footer() {
           <div>
             <Link href="#home" className="inline-block mb-6">
               <Image
-                src="/logo-new-white.png"
+                src="/logo-1.png"
                 alt="PlanMyTrip Logo"
                 width={160}
                 height={64}
                 className="h-auto w-auto dark:hidden hover:scale-105 transition-transform"
               />
               <Image
-                src="/logo-new.png"
+                src="/logo-2.png"
                 alt="PlanMyTrip Dark Logo"
                 width={160}
                 height={64}

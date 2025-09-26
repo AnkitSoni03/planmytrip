@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   title: "PlanMyTrip",
   description: "India's Largest Car Rental Service Provider..",
   icons: {
-    icon: "/favicon.png",
+    icon: "/fav-1.png",
   },
 };
 

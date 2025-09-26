@@ -111,7 +111,7 @@ function Navbar() {
               {/* Light Mode Logo */}
               <Link href={"/"}>
                 <Image
-                  src="/logo-new-white.png"
+                  src="/logo-1.png"
                   alt="PlanMyTrip Logo"
                   width={150}
                   height={60}
@@ -120,7 +120,7 @@ function Navbar() {
 
                 {/* Dark Mode Logo */}
                 <Image
-                  src="/logo-new.png"
+                  src="/logo-2.png"
                   alt="PlanMyTrip Logo Dark"
                   width={150}
                   height={60}
