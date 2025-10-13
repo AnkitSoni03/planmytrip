@@ -1,7 +1,7 @@
-"use client";
+"use client"; 
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   CheckCircle,
   Car,
@@ -10,6 +10,7 @@ import {
   CreditCard,
   User,
   Mail,
+  MapPin,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -23,6 +24,63 @@ export default function BookingPreviewPage() {
   const [showCongrats, setShowCongrats] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [fareDetails, setFareDetails] = useState<{
+    distance: number;
+    amount: number;
+    breakdown: { distanceCharge: number; driverCharge: number };
+    duration: number;
+  } | null>(null);
+  const [loadingFare, setLoadingFare] = useState(true);
+  const [fareError, setFareError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (data) {
+      calculateFare();
+    }
+  }, [data]);
+
+  const calculateFare = async () => {
+    if (!data) return;
+    
+    try {
+      setLoadingFare(true);
+      setFareError(null);
+      
+      const booking = JSON.parse(data);
+      const pickupLocation = booking.pickupLocation || "ABC";
+      const dropLocation = booking.dropLocation || "DEF";
+      
+      const response = await fetch('/api/calculate-fare', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          pickupLocation,
+          dropLocation
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to calculate fare');
+      }
+      
+      const fareData = await response.json();
+      setFareDetails(fareData);
+    } catch (error) {
+      console.error('Fare calculation error:', error);
+      setFareError('Unable to calculate fare. Please try again.');
+      // Fallback to default values
+      setFareDetails({
+        distance: 0,
+        amount: 500, // Minimum driver charge
+        breakdown: { distanceCharge: 0, driverCharge: 500 },
+        duration: 0
+      });
+    } finally {
+      setLoadingFare(false);
+    }
+  };
 
   if (!data) {
     return (
@@ -44,12 +102,9 @@ export default function BookingPreviewPage() {
 
   const booking = JSON.parse(data);
 
-  const distance = 200; // km
-  const ratePerKm = 12;
-  const driverCharge = 500;
-  const totalAmount = distance * ratePerKm + driverCharge;
-
   const handlePayment = async () => {
+    if (!fareDetails) return;
+    
     setIsProcessing(true);
     
     try {
@@ -65,8 +120,10 @@ export default function BookingPreviewPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
           ...booking, 
-          paymentAmt: totalAmount,
-          bookingId: bookingId
+          paymentAmt: fareDetails.amount,
+          bookingId: bookingId,
+          distance: fareDetails.distance,
+          duration: fareDetails.duration
         }),
       });
 
@@ -86,7 +143,9 @@ export default function BookingPreviewPage() {
                   to: booking.dropLocation || "Drop Location", 
                   date: booking.pickupDate || "Today",
                   time: booking.pickupTime || "Now",
-                  amount: totalAmount
+                  amount: fareDetails.amount,
+                  distance: fareDetails.distance,
+                  duration: fareDetails.duration
                 }
               }),
             });
@@ -157,7 +216,7 @@ export default function BookingPreviewPage() {
               Booking ID: #BK{Date.now().toString().slice(-6)}
             </p>
             <p className="text-blue-600 dark:text-blue-400 text-sm mt-1">
-              Amount Paid: ₹{totalAmount}
+              Amount Paid: ₹{fareDetails?.amount || 0}
             </p>
             {booking.email && (
               <p className="text-gray-500 dark:text-gray-400 text-xs mt-2">
@@ -228,6 +287,32 @@ export default function BookingPreviewPage() {
               </div>
             </div>
 
+            {/* Route Info */}
+            {fareDetails && (
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <MapPin className="w-4 h-4 text-blue-600" />
+                  <span className="text-blue-800 dark:text-blue-200 font-medium">
+                    Route Information
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="text-blue-600 dark:text-blue-400">Distance: </span>
+                    <span className="text-blue-800 dark:text-blue-200">
+                      {fareDetails.distance} km
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-blue-600 dark:text-blue-400">Est. Time: </span>
+                    <span className="text-blue-800 dark:text-blue-200">
+                      {Math.round(fareDetails.duration)} mins
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Date & Time */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex items-center gap-3">
@@ -288,22 +373,40 @@ export default function BookingPreviewPage() {
             <CreditCard className="w-5 h-5 mr-2" />
             Fare Breakdown
           </h3>
-          <div className="space-y-3">
-            <div className="flex justify-between py-2 text-gray-700 dark:text-gray-300">
-              <span>Distance ({distance} km)</span>
-              <span>₹{distance * ratePerKm}</span>
+          
+          {loadingFare ? (
+            <div className="text-center py-8">
+              <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-gray-600 dark:text-gray-400">Calculating fare...</p>
             </div>
-            <div className="flex justify-between py-2 text-gray-700 dark:text-gray-300">
-              <span>Driver Charges</span>
-              <span>₹{driverCharge}</span>
+          ) : fareError ? (
+            <div className="text-center py-8 text-red-600 dark:text-red-400">
+              <p>{fareError}</p>
+              <button 
+                onClick={calculateFare}
+                className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              >
+                Retry
+              </button>
             </div>
-            <div className="border-t pt-3 flex justify-between items-center text-lg font-semibold text-gray-900 dark:text-gray-100">
-              <span>Total Amount</span>
-              <span className="text-2xl text-green-600 dark:text-green-400">
-                ₹{totalAmount}
-              </span>
+          ) : fareDetails ? (
+            <div className="space-y-3">
+              <div className="flex justify-between py-2 text-gray-700 dark:text-gray-300">
+                <span>Distance ({fareDetails.distance} km × ₹9/km)</span>
+                <span>₹{fareDetails.breakdown.distanceCharge}</span>
+              </div>
+              <div className="flex justify-between py-2 text-gray-700 dark:text-gray-300">
+                <span>Driver Charges</span>
+                <span>₹{fareDetails.breakdown.driverCharge}</span>
+              </div>
+              <div className="border-t pt-3 flex justify-between items-center text-lg font-semibold text-gray-900 dark:text-gray-100">
+                <span>Total Amount</span>
+                <span className="text-2xl text-green-600 dark:text-green-400">
+                  ₹{fareDetails.amount}
+                </span>
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
 
         {/* Payment Section */}
@@ -322,14 +425,16 @@ export default function BookingPreviewPage() {
 
           <div className="space-y-4">
             {/* Show Total Amount */}
-            <div className="bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-xl p-4 flex items-center justify-between">
-              <span className="text-gray-700 dark:text-gray-300 font-medium">
-                Total Amount
-              </span>
-              <span className="text-lg font-bold text-green-600 dark:text-green-400">
-                ₹{totalAmount}
-              </span>
-            </div>
+            {fareDetails && (
+              <div className="bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-xl p-4 flex items-center justify-between">
+                <span className="text-gray-700 dark:text-gray-300 font-medium">
+                  Total Amount
+                </span>
+                <span className="text-lg font-bold text-green-600 dark:text-green-400">
+                  ₹{fareDetails.amount}
+                </span>
+              </div>
+            )}
             
             {booking.email && (
               <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-3">
@@ -344,10 +449,10 @@ export default function BookingPreviewPage() {
             
             <button
               onClick={handlePayment}
-              disabled={isProcessing}
+              disabled={isProcessing || !fareDetails || loadingFare}
               className={`w-full text-white font-semibold py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2
                 ${
-                  isProcessing
+                  isProcessing || !fareDetails || loadingFare
                     ? "bg-gray-500 cursor-not-allowed"
                     : "bg-green-600 hover:bg-green-700"
                 }`}
