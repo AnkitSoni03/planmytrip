@@ -7,6 +7,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/Header/theme-provider";
 import LayoutWrapper from "@/components/LayoutWrapper";
 import { Metadata } from "next";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -58,21 +59,21 @@ export default async function RootLayout({
     console.error("❌ Error syncing user with DB:", error);
   }
 
-  // Root layout render
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <LayoutWrapper>{children}</LayoutWrapper>
-          </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+  <html lang="en">
+    <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <SmoothScroll />
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <LayoutWrapper>{children}</LayoutWrapper>
+      </ThemeProvider>
+    </body>
+  </html>
+</ClerkProvider>
   );
 }
