@@ -7,7 +7,6 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/Header/theme-provider";
 import LayoutWrapper from "@/components/LayoutWrapper";
 import { Metadata } from "next";
-import SmoothScroll from "@/components/SmoothScroll";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -63,7 +62,6 @@ export default async function RootLayout({
     <ClerkProvider>
   <html lang="en">
     <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-      <SmoothScroll />
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
