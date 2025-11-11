@@ -1,5 +1,5 @@
 import React from "react";
-import { CabCard, Icon } from "../ui/evervault-card";
+import { CabCard } from "../ui/evervault-card";
 import Link from "next/link";
 
 export function FleetCards() {
@@ -102,12 +102,8 @@ export function FleetCards() {
         {cabs.map((cab) => (
           <div
             key={cab.id}
-            className="border border-black/[0.2] dark:border-white/[0.2] flex flex-col items-start p-3 relative h-[24rem] sm:h-[26rem] md:h-[28rem]  bg-white/50 dark:bg-neutral-900/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300 hover:border-gray-400 dark:hover:border-gray-500"
+            className="border border-black/[0.2] dark:border-white/[0.2] flex flex-col items-start p-5 relative h-[24rem] sm:h-[26rem] md:h-[28rem]  bg-white/50 dark:bg-neutral-900/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300 hover:border-gray-400 dark:hover:border-gray-500"
           >
-            <Icon className="absolute h-4 w-4 md:h-5 md:w-5 -top-2 -left-2 dark:text-white text-black" />
-            <Icon className="absolute h-4 w-4 md:h-5 md:w-5 -bottom-2 -left-2 dark:text-white text-black" />
-            <Icon className="absolute h-4 w-4 md:h-5 md:w-5 -top-2 -right-2 dark:text-white text-black" />
-            <Icon className="absolute h-4 w-4 md:h-5 md:w-5 -bottom-2 -right-2 dark:text-white text-black" />
 
             <CabCard cab={cab} />
 
