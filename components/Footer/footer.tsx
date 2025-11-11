@@ -62,9 +62,9 @@ function Footer() {
   ];
 
   return (
-    <footer className="bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-900 dark:to-slate-900 border-t border-gray-200 dark:border-gray-800">
+    <footer className="dark:bg-black border-t border-gray-200 dark:border-gray-800">
       {/* Achievements */}
-      <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700">
+      <div className="dark:bg-black backdrop-blur-sm border-b border-gray-200 dark:border-gray-700">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {achievements.map((item, i) => {
@@ -246,25 +246,33 @@ function Footer() {
 
       {/* Bottom */}
       <div className="bg-gray-900 dark:bg-black text-white text-sm">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-400 flex items-center gap-1">
-            © 2025 PlanMyTrip. All rights reserved. • Made with{" "}
-            <Heart className="h-4 w-4 text-red-500 animate-pulse" /> for
-            travelers.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            {legalLinks.map((link, i) => (
-              <Link
-                key={i}
-                href={link.href}
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row justify-between items-center md:items-center gap-4 text-center md:text-left">
+    
+    {/* Left Text */}
+    <p className="text-gray-400 flex items-center justify-center md:justify-start gap-1 flex-wrap">
+      © 2025 <span className="font-semibold text-white">PlanMyTrip</span>. All rights reserved. • Made with{" "}
+      <span className="inline-flex items-center">
+        <Heart className="h-4 w-4 text-red-500 animate-pulse mx-1" />
+      </span>
+      for travelers.
+    </p>
+
+    {/* Right Links */}
+    <div className="flex flex-wrap justify-center md:justify-end gap-3 sm:gap-4">
+      {legalLinks.map((link, i) => (
+        <Link
+          key={i}
+          href={link.href}
+          className="text-gray-400 hover:text-white transition-colors duration-200"
+        >
+          {link.name}
+        </Link>
+      ))}
+    </div>
+
+  </div>
+</div>
+
     </footer>
   );
 }
