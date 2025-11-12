@@ -27,7 +27,7 @@ export function CarRentalHowItWorks() {
                   index % 2 === 1 ? "md:flex-row-reverse" : ""
                 } items-center md:items-start gap-10 md:gap-14 
                  rounded-2xl 
-                shadow-md transition-all duration-300 
+                 transition-all duration-300 
                 overflow-hidden px-6 sm:px-10 py-10 md:py-12`}
               >
                 {/* Image */}
@@ -96,7 +96,7 @@ interface Step {
 
 const howItWorksSteps: Step[] = [
   {
-    title: "Choose Location 🌍",
+    title: "Choose Location",
     description: (
       <>
         <p>
@@ -119,7 +119,7 @@ const howItWorksSteps: Step[] = [
     image: "/choose-location.jpg",
   },
   {
-    title: "Select Vehicle 🚖",
+    title: "Select Vehicle",
     description: (
       <>
         <p>
@@ -141,7 +141,7 @@ const howItWorksSteps: Step[] = [
     image: "/select-vehicle.jpg",
   },
   {
-    title: "Make Payment 💳",
+    title: "Make Payment",
     description: (
       <>
         <p>
@@ -158,7 +158,7 @@ const howItWorksSteps: Step[] = [
     image: "/make-payment.jpg",
   },
   {
-    title: "Enjoy Your Ride 🎉",
+    title: "Enjoy Your Ride",
     description: (
       <>
         <p>
