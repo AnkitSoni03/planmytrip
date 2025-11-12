@@ -11,7 +11,8 @@ export function FleetCards() {
       type: "Economy Cab",
       capacity: "4 passengers",
       price: "Start: ₹12/km",
-      description: "Perfect for city rides and short trips. Comfortable seating with AC. Affordable pricing for budget-conscious travelers. Great fuel efficiency.",
+      description:
+        "Perfect for city rides and short trips. Comfortable seating with AC. Affordable pricing for budget-conscious travelers. Great fuel efficiency.",
     },
     {
       id: 2,
@@ -20,7 +21,8 @@ export function FleetCards() {
       type: "Premium Cab",
       capacity: "6 passengers",
       price: "Start: ₹18/km",
-      description: "Spacious interior with luxury features. Ideal for family trips and airport transfers. Enhanced comfort with premium upholstery. Perfect for long journeys.",
+      description:
+        "Spacious interior with luxury features. Great for family trips and airport transfers. Premium comfort for long journeys.",
     },
     {
       id: 3,
@@ -29,7 +31,8 @@ export function FleetCards() {
       type: "Luxury Cab",
       capacity: "4 passengers",
       price: "Start: ₹25/km",
-      description: "Premium luxury experience with top-notch features. Executive class comfort for business travels. Professional chauffeur service included. Ultimate travel experience.",
+      description:
+        "Luxury experience with top features. Executive comfort for business travel. Chauffeur service included. Ultimate ride experience.",
     },
     {
       id: 4,
@@ -38,7 +41,8 @@ export function FleetCards() {
       type: "Tempo Traveller",
       capacity: "9 passengers",
       price: "Start: ₹20/km",
-      description: "Compact yet spacious for small groups. Comfortable seating with ample legroom. Ideal for family outings and small tours. Economical for group travel.",
+      description:
+        "Compact yet spacious for small groups. Comfortable seating and ample legroom. Perfect for short tours and family outings.",
     },
     {
       id: 5,
@@ -47,7 +51,8 @@ export function FleetCards() {
       type: "Tempo Traveller",
       capacity: "12 passengers",
       price: "Start: ₹24/km",
-      description: "Perfect for medium-sized groups and corporate trips. Comfortable seating arrangement with AC. Great for pilgrimages and weekend getaways. Reliable and safe.",
+      description:
+        "Perfect for medium-sized groups and corporate trips. Comfortable seating arrangement with AC. Great for pilgrimages and weekend getaways. Reliable and safe.",
     },
     {
       id: 6,
@@ -56,7 +61,8 @@ export function FleetCards() {
       type: "Tempo Traveller",
       capacity: "16 passengers",
       price: "Start: ₹28/km",
-      description: "Spacious vehicle ideal for large families. Comfortable for long distance journeys. Ample luggage space available. Perfect for wedding parties and events.",
+      description:
+        "Spacious vehicle for large families. Comfortable for long journeys with ample luggage space. Perfect for weddings and events.",
     },
     {
       id: 7,
@@ -65,7 +71,8 @@ export function FleetCards() {
       type: "Mini Bus",
       capacity: "20 passengers",
       price: "Start: ₹35/km",
-      description: "Affordable transportation for large groups. Comfortable seating with good legroom. Ideal for school trips and corporate events. Economical for long tours.",
+      description:
+        "Affordable ride for large groups. Comfortable seating with ample legroom. Ideal for school trips and corporate events.",
     },
     {
       id: 8,
@@ -74,7 +81,8 @@ export function FleetCards() {
       type: "Mini Bus",
       capacity: "25 passengers",
       price: "Start: ₹40/km",
-      description: "Spacious bus with comfortable seating arrangement. Perfect for large family gatherings and tours. Enhanced safety features included. Great for interstate travel.",
+      description:
+        "Spacious bus with comfortable seating arrangement. Perfect for large family gatherings and tours. Enhanced safety features included. Great for interstate travel.",
     },
     {
       id: 9,
@@ -83,7 +91,8 @@ export function FleetCards() {
       type: "Mini Bus",
       capacity: "30 passengers",
       price: "Start: ₹45/km",
-      description: "Largest in our fleet for big groups. Ideal for weddings, events and large tours. Comfortable journey with experienced driver. Best value for money.",
+      description:
+        "Largest in our fleet for big groups. Ideal for weddings, events, and tours. Comfortable journey with an experienced driver.",
     },
   ];
 
@@ -94,7 +103,8 @@ export function FleetCards() {
           Our <span className="text-red-600">Fleets</span>
         </h2>
         <p className="mt-3 text-neutral-600 dark:text-neutral-400 text-sm md:text-lg max-w-2xl mx-auto">
-          Choose from our variety of well-maintained vehicles for your comfortable journey.
+          Choose from our variety of well-maintained vehicles for your
+          comfortable journey.
         </p>
       </div>
 
@@ -104,18 +114,30 @@ export function FleetCards() {
             key={cab.id}
             className="border border-black/[0.2] dark:border-white/[0.2] flex flex-col items-start p-5 relative h-[24rem] sm:h-[26rem] md:h-[28rem]  bg-white/50 dark:bg-neutral-900/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300 hover:border-gray-400 dark:hover:border-gray-500"
           >
-
             <CabCard cab={cab} />
 
             <p className="dark:text-gray-300 text-gray-600 mt-2 text-xs font-medium px-1 line-clamp-4 min-h-[4rem] leading-relaxed">
               {cab.description}
             </p>
-            
+
             <button className="w-full mt-3 md:mt-4 text-xs font-medium dark:border-white/[0.2] border-black/[0.2] rounded-full text-black dark:text-white px-3 py-2 border bg-white dark:bg-neutral-800 hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-300 group">
-              <Link href="/booking" className="flex items-center justify-center gap-1">
-                Book Now 
-                <svg className="w-3 h-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              <Link
+                href="/booking"
+                className="flex items-center justify-center gap-1"
+              >
+                Book Now
+                <svg
+                  className="w-3 h-3 group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
                 </svg>
               </Link>
             </button>
