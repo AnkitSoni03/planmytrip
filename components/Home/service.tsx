@@ -57,11 +57,12 @@ export function Services() {
   return (
     <section className="relative z-10">
       {/* Section Heading */}
-      <div className="max-w-7xl mx-auto px-6 text-center mb-10 pt-20">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-neutral-900 dark:text-white">
+      <div className="mx-auto max-w-6xl px-4 py-16">
+      <div className="max-w-7xl mx-auto px-6 text-center mb-10 md:mb-14">
+        <h2 className="text-2xl md:text-4xl font-extrabold text-neutral-900 dark:text-white">
           Our <span className="text-red-600">Services</span>
         </h2>
-        <p className="mt-3 text-neutral-600 dark:text-neutral-400 text-lg max-w-2xl mx-auto">
+        <p className="mt-3 text-neutral-600 dark:text-neutral-400 text-sm md:text-lg max-w-2xl mx-auto">
           Discover our wide range of professional services designed to make your travel smooth, safe, and affordable.
         </p>
       </div>
@@ -71,6 +72,7 @@ export function Services() {
         {features.map((feature, index) => (
           <Feature key={feature.title} {...feature} index={index} />
         ))}
+      </div>
       </div>
     </section>
   );

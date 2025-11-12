@@ -7,16 +7,15 @@ export function CarRentalHowItWorks() {
     <section className="py-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-            How <span className="text-red-600">It Works</span>
-          </h2>
-          <p className="mt-3 text-gray-600 dark:text-gray-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-            Plan your trip in just 4 easy steps — a smooth, reliable, and
-            stress-free car rental experience designed for your convenience.
-          </p>
-        </div>
-
+        <div className="max-w-7xl mx-auto px-6 text-center mb-10 md:mb-14">
+        <h2 className="text-2xl md:text-4xl font-extrabold text-neutral-900 dark:text-white">
+          How <span className="text-red-600">It Works</span>
+        </h2>
+        <p className="mt-3 text-neutral-600 dark:text-neutral-400 text-sm md:text-lg max-w-2xl mx-auto">
+          Plan your trip in just 4 easy steps — a smooth, reliable, and stress-free car rental experience designed for your convenience.
+          us.
+        </p>
+      </div>
         {/* Steps Section */}
         <TracingBeam className="px-4 sm:px-6">
           <div className="max-w-5xl mx-auto relative space-y-20 md:space-y-24">

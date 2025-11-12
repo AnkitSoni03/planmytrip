@@ -5,14 +5,16 @@ export function Offers() {
   return (
     <section className="lg:py-32 relative">
       {/* Section Heading */}
-      <div className="max-w-7xl mx-auto px-6 text-center mb-14">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-neutral-900 dark:text-white">
+      <div className="mx-auto max-w-6xl px-4 py-16">
+      <div className="max-w-7xl mx-auto px-6 text-center mb-10 md:mb-14">
+        <h2 className="text-2xl md:text-4xl font-extrabold text-neutral-900 dark:text-white">
           Special <span className="text-red-600">Offers</span>
         </h2>
-        <p className="mt-3 text-neutral-600 dark:text-neutral-400 text-lg max-w-2xl mx-auto">
+        <p className="mt-3 text-neutral-600 dark:text-neutral-400 text-sm md:text-lg max-w-2xl mx-auto">
           Grab our exclusive discounts and rewards to make your journey even more affordable.
         </p>
       </div>
+      
 
       {/* Offer Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-7xl mx-auto px-6">
@@ -32,6 +34,7 @@ export function Offers() {
           </div>
         ))}
       </div>
+    </div>
     </section>
   );
 }

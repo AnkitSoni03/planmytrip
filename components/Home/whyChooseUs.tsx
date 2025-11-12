@@ -5,16 +5,15 @@ export function WhyChooseUs() {
   return (
     <>
       <div className="mx-auto max-w-6xl px-4 py-16">
-        <div className="max-w-7xl mx-auto px-6 text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-neutral-900 dark:text-white">
+        <div className="max-w-7xl mx-auto px-6 text-center mb-10 md:mb-14">
+          <h2 className="text-2xl md:text-4xl font-extrabold text-neutral-900 dark:text-white">
             Why <span className="text-red-600">Choose Us</span>
           </h2>
-          <p className="mt-3 text-neutral-600 dark:text-neutral-400 text-lg max-w-2xl mx-auto">
+          <p className="mt-3 text-neutral-600 dark:text-neutral-400 text-sm md:text-lg max-w-2xl mx-auto">
             We make your journeys smooth, flexible, and memorable with our
             reliable cab services and customer-first approach.
           </p>
         </div>
-
         <div className="grid max-w-5xl mx-auto grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {/* Card 1 - 24/7 Cab Service */}
           <div className="rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">

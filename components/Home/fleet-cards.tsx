@@ -89,11 +89,11 @@ export function FleetCards() {
 
   return (
     <>
-      <div className="max-w-7xl mx-auto px-4 md:px-6 text-center mb-8 md:mb-14 pt-10 md:pt-15">
+      <div className="max-w-7xl mx-auto px-6 text-center mb-10 md:mb-14">
         <h2 className="text-2xl md:text-4xl font-extrabold text-neutral-900 dark:text-white">
-          Our <span className="text-red-600">Fleet</span>
+          Our <span className="text-red-600">Fleets</span>
         </h2>
-        <p className="mt-2 md:mt-3 text-neutral-600 dark:text-neutral-400 text-sm md:text-lg max-w-2xl mx-auto">
+        <p className="mt-3 text-neutral-600 dark:text-neutral-400 text-sm md:text-lg max-w-2xl mx-auto">
           Choose from our variety of well-maintained vehicles for your comfortable journey.
         </p>
       </div>
