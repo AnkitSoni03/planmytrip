@@ -40,14 +40,14 @@ export const CabCard = ({
               {cab?.name}
             </h3>
             <div className="flex justify-center gap-3 mb-1">
-              <span className="dark:bg-blue-500/20 bg-blue-100 text-blue-600 dark:text-blue-300 text-xs px-2 py-1 rounded-full font-medium">
+              <span className=" text-xs px-2 py-1 rounded-full font-medium">
                 {cab?.type}
               </span>
-              <span className="dark:bg-green-500/20 bg-green-100 text-green-600 dark:text-green-300 text-xs px-2 py-1 rounded-full font-medium">
+              <span className="text-xs px-2 py-1 rounded-full font-medium">
                 {cab?.capacity}
               </span>
             </div>
-            <p className="dark:text-red-400 text-red-500 font-bold text-sm md:text-base bg-red-50 dark:bg-red-950/30 px-3 py-1 rounded-full inline-block mt-1">
+            <p className="dark:text-red-400 text-red-500 font-bold rounded-full inline-block mt-1">
               {cab?.price}
             </p>
           </div>

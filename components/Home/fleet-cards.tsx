@@ -10,7 +10,7 @@ export function FleetCards() {
       image: "/sedan.png",
       type: "Economy Cab",
       capacity: "4 passengers",
-      price: "₹12/km",
+      price: "Start: ₹12/km",
       description: "Perfect for city rides and short trips. Comfortable seating with AC. Affordable pricing for budget-conscious travelers. Great fuel efficiency.",
     },
     {
@@ -19,7 +19,7 @@ export function FleetCards() {
       image: "/SUV.png",
       type: "Premium Cab",
       capacity: "6 passengers",
-      price: "₹18/km",
+      price: "Start: ₹18/km",
       description: "Spacious interior with luxury features. Ideal for family trips and airport transfers. Enhanced comfort with premium upholstery. Perfect for long journeys.",
     },
     {
@@ -28,7 +28,7 @@ export function FleetCards() {
       image: "/Laxury.png",
       type: "Luxury Cab",
       capacity: "4 passengers",
-      price: "₹25/km",
+      price: "Start: ₹25/km",
       description: "Premium luxury experience with top-notch features. Executive class comfort for business travels. Professional chauffeur service included. Ultimate travel experience.",
     },
     {
@@ -37,7 +37,7 @@ export function FleetCards() {
       image: "/tempo.png",
       type: "Tempo Traveller",
       capacity: "9 passengers",
-      price: "₹20/km",
+      price: "Start: ₹20/km",
       description: "Compact yet spacious for small groups. Comfortable seating with ample legroom. Ideal for family outings and small tours. Economical for group travel.",
     },
     {
@@ -46,7 +46,7 @@ export function FleetCards() {
       image: "/tempo.png",
       type: "Tempo Traveller",
       capacity: "12 passengers",
-      price: "₹24/km",
+      price: "Start: ₹24/km",
       description: "Perfect for medium-sized groups and corporate trips. Comfortable seating arrangement with AC. Great for pilgrimages and weekend getaways. Reliable and safe.",
     },
     {
@@ -55,7 +55,7 @@ export function FleetCards() {
       image: "/tempo.png",
       type: "Tempo Traveller",
       capacity: "16 passengers",
-      price: "₹28/km",
+      price: "Start: ₹28/km",
       description: "Spacious vehicle ideal for large families. Comfortable for long distance journeys. Ample luggage space available. Perfect for wedding parties and events.",
     },
     {
@@ -64,7 +64,7 @@ export function FleetCards() {
       image: "/bus.png",
       type: "Mini Bus",
       capacity: "20 passengers",
-      price: "₹35/km",
+      price: "Start: ₹35/km",
       description: "Affordable transportation for large groups. Comfortable seating with good legroom. Ideal for school trips and corporate events. Economical for long tours.",
     },
     {
@@ -73,7 +73,7 @@ export function FleetCards() {
       image: "/bus.png",
       type: "Mini Bus",
       capacity: "25 passengers",
-      price: "₹40/km",
+      price: "Start: ₹40/km",
       description: "Spacious bus with comfortable seating arrangement. Perfect for large family gatherings and tours. Enhanced safety features included. Great for interstate travel.",
     },
     {
@@ -82,7 +82,7 @@ export function FleetCards() {
       image: "/bus.png",
       type: "Mini Bus",
       capacity: "30 passengers",
-      price: "₹45/km",
+      price: "Start: ₹45/km",
       description: "Largest in our fleet for big groups. Ideal for weddings, events and large tours. Comfortable journey with experienced driver. Best value for money.",
     },
   ];
