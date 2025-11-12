@@ -21,7 +21,6 @@ export const Card: React.FC<CardProps> = React.memo(
       onMouseLeave={() => setHovered(null)}
       className={cn(
         "rounded-lg relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-60 md:h-96 w-full transition-all duration-300 ease-out",
-        hovered !== null && hovered !== index && "blur-[1px] scale-[0.99]"
       )}
     >
       <img
