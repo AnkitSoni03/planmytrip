@@ -3,7 +3,7 @@ import { useId } from "react";
 
 export function Offers() {
   return (
-    <section className="lg:py-32 relative">
+    <section>
       {/* Section Heading */}
       <div className="mx-auto max-w-6xl px-4 py-16">
       <div className="max-w-7xl mx-auto px-6 text-center mb-10 md:mb-14">
