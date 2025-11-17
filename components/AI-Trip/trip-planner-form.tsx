@@ -214,7 +214,7 @@ export function TripPlannerForm() {
                     <SelectItem value="nearby">50-200km</SelectItem>
                     <SelectItem value="state">200-500km</SelectItem>
                     <SelectItem value="national">500-1500km</SelectItem>
-                    <SelectItem value="India">1500km +</SelectItem>
+                    <SelectItem value="india">1500km +</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -237,7 +237,7 @@ export function TripPlannerForm() {
                     <SelectItem value="couple">Couple</SelectItem>
                     <SelectItem value="small-group">3-5 People</SelectItem>
                     <SelectItem value="large-group">6-10 group</SelectItem>
-                    <SelectItem value="large-group">10 + group</SelectItem>
+                    <SelectItem value="xlarge-group">10 + group</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
