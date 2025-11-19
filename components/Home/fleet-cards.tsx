@@ -7,7 +7,7 @@ export function FleetCards() {
     {
       id: 1,
       name: "Economy Sedan",
-      image: "/sedan.png",
+      image: "/sedan-new.png",
       type: "Economy Cab",
       capacity: "4 passengers",
       price: "Start: ₹12/km",
@@ -17,7 +17,7 @@ export function FleetCards() {
     {
       id: 2,
       name: "Premium SUV",
-      image: "/SUV.png",
+      image: "/suv-new.png",
       type: "Premium Cab",
       capacity: "6 passengers",
       price: "Start: ₹18/km",
@@ -27,7 +27,7 @@ export function FleetCards() {
     {
       id: 3,
       name: "Luxury Car",
-      image: "/Laxury.png",
+      image: "/luxury-new.png",
       type: "Luxury Cab",
       capacity: "4 passengers",
       price: "Start: ₹25/km",
@@ -37,7 +37,7 @@ export function FleetCards() {
     {
       id: 4,
       name: "9-Seater Tempo Traveller",
-      image: "/tempo.png",
+      image: "/urbania.png",
       type: "Tempo Traveller",
       capacity: "9 passengers",
       price: "Start: ₹20/km",
@@ -47,7 +47,7 @@ export function FleetCards() {
     {
       id: 5,
       name: "12-Seater Tempo Traveller",
-      image: "/tempo.png",
+      image: "/urbania.png",
       type: "Tempo Traveller",
       capacity: "12 passengers",
       price: "Start: ₹24/km",
@@ -57,7 +57,7 @@ export function FleetCards() {
     {
       id: 6,
       name: "16-Seater Tempo Traveller",
-      image: "/tempo.png",
+      image: "/urbania.png",
       type: "Tempo Traveller",
       capacity: "16 passengers",
       price: "Start: ₹28/km",
