@@ -124,6 +124,7 @@ const howItWorksSteps: Step[] = [
       <>
         <p>Select your pickup and drop locations easily.</p>
         <p>Get instant fare estimates and availability.</p>
+        <p>Our system automatically suggests the best route for your journey.</p>
       </>
     ),
     features: ["Pickup & Drop", "Multi-City", "Live Availability"],
@@ -136,6 +137,7 @@ const howItWorksSteps: Step[] = [
       <>
         <p>Choose from Sedan, SUV, Luxury cars or Travellers.</p>
         <p>Fully sanitized, well-maintained cars.</p>
+        <p>Find the perfect vehicle based on comfort, budget, and luggage needs.</p>
       </>
     ),
     features: ["Economy to Luxury", "Group Friendly", "Verified Drivers"],
@@ -148,6 +150,7 @@ const howItWorksSteps: Step[] = [
       <>
         <p>Secure payment via UPI, Cards, Wallets & Netbanking.</p>
         <p>No hidden charges — 100% transparency.</p>
+        <p>Once paid, your booking details and driver info are shared instantly.</p>
       </>
     ),
     features: ["Instant Confirmation", "Multiple Payment Modes"],
@@ -160,6 +163,7 @@ const howItWorksSteps: Step[] = [
       <>
         <p>Relax and enjoy with professional drivers.</p>
         <p>24×7 customer support during the whole trip.</p>
+        <p>Experience smooth, safe, and comfortable travel till your destination.</p>
       </>
     ),
     features: ["Professional Chauffeurs", "On-time Pickup", "24×7 Support"],
